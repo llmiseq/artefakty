@@ -1,0 +1,7 @@
+name: artefakty
+version: '${project.version}'
+main: com.jakub.artefakty.Artefakty
+api-version: '1.19'
+commands:
+  trofeum:
+    description: Otwiera ekwipunek z trofeami.
