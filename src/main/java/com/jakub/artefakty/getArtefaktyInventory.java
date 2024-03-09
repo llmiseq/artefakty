@@ -32,27 +32,31 @@ public class getArtefaktyInventory {
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
                     e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu
 
-                    switch (e.getSlot()) {
-                        case 10:
-                            p.openInventory(getUpgradeInventory(true , rogMino));
-                            break;
-                        case 11:
-                            p.openInventory(getUpgradeInventory(false , slepiePradawnego));
-                            break;
-                        case 12:
-                            p.openInventory(getUpgradeInventory(false , berloKrola));
-                            break;
-                        case 14:
-                            p.openInventory(getUpgradeInventory(false , klepsydraReaper));
-                            break;
-                        case 15:
-                            p.openInventory(getUpgradeInventory(false , kosaNiebieskiej));
-                            break;
-                        case 16:
-                            p.openInventory(getUpgradeInventory(false , substancjaKsiecia));
-                            break;
+                    // Dodaj to sprawdzenie
+                    if (e.getView().getTitle().equals("§6Twoje Trofea")) {
+                        switch (e.getSlot()) {
+                            case 10:
+                                p.openInventory(getUpgradeInventory(true , rogMino));
+                                break;
+                            case 11:
+                                p.openInventory(getUpgradeInventory(false , slepiePradawnego));
+                                break;
+                            case 12:
+                                p.openInventory(getUpgradeInventory(false , berloKrola));
+                                break;
+                            case 14:
+                                p.openInventory(getUpgradeInventory(false , klepsydraReaper));
+                                break;
+                            case 15:
+                                p.openInventory(getUpgradeInventory(false , kosaNiebieskiej));
+                                break;
+                            case 16:
+                                p.openInventory(getUpgradeInventory(false , substancjaKsiecia));
+                                break;
+                        }
                     }
                 }).build();
+
     }
 
     private Inventory getUpgradeInventory(boolean b, int slepiePradawnego) {
