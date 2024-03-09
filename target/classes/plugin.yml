@@ -5,3 +5,5 @@ api-version: '1.19'
 commands:
   trofeum:
     description: Otwiera ekwipunek z trofeami.
+  trofea:
+    description: Otwiera ekwipunek z trofeami.

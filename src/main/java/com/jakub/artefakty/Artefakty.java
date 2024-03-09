@@ -13,6 +13,7 @@ public final class Artefakty extends JavaPlugin {
         inventoryManager = new CInventoryManager(this);
         artefaktyInventory = new getArtefaktyInventory();
         getCommand("trofeum").setExecutor(new GuiCommands(artefaktyInventory));
+        getCommand("trofea").setExecutor(new GuiCommands(artefaktyInventory));
     }
 
     @Override

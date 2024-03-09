@@ -1,12 +1,22 @@
-
 package com.jakub.artefakty;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class getArtefaktyInventory {
-    private static final ItemStack FILL_BLACK = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+    private static final ItemStack FILL_BLACK;
+
+    static {
+        FILL_BLACK = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = FILL_BLACK.getItemMeta();
+        meta.setDisplayName(" ");
+        FILL_BLACK.setItemMeta(meta);
+    }
+
+
     public Inventory getArtefaktyInventory(int rogMino, int slepiePradawnego, int berloKrola, int klepsydraReaper, int kosaNiebieskiej, int substancjaKsiecia) {
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK).addEventInventoryOpen((p, e) -> {
                     //10 11 12 14 15 16
@@ -19,8 +29,7 @@ public class getArtefaktyInventory {
                 })
                 .addEventInventoryClick((p, e) -> {
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
-
-
+                    e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu
 
                     switch (e.getSlot()) {
                         case 10:
@@ -44,7 +53,6 @@ public class getArtefaktyInventory {
                     }
                 }).build();
     }
-
 
     private Inventory getUpgradeInventory(boolean b, int substancjaKsiecia) {
         return null;
