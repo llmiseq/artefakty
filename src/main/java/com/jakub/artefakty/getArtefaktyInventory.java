@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class getArtefaktyInventory {
     private static final ItemStack FILL_BLACK;
+    private createCustomItem customItemCreator = new createCustomItem();
 
     static {
         FILL_BLACK = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -54,31 +55,31 @@ public class getArtefaktyInventory {
                 }).build();
     }
 
-    private Inventory getUpgradeInventory(boolean b, int substancjaKsiecia) {
+    private Inventory getUpgradeInventory(boolean b, int slepiePradawnego) {
         return null;
     }
 
     private ItemStack ART_ESKA(Player p, int substancjaKsiecia) {
-        return null;
+        return customItemCreator.item6;
     }
 
     private ItemStack ART_DEM2(Player p, int kosaNiebieskiej) {
-        return null;
+        return customItemCreator.item5;
     }
 
     private ItemStack ART_DEM1(Player p, int klepsydraReapera) {
-        return null;
+        return customItemCreator.item4;
     }
 
     private ItemStack ART_LODO(Player p, int berloKrola) {
-        return null;
+        return customItemCreator.item3;
     }
 
     private ItemStack ART_PRAD(Player p, int slepiePradawnego) {
-        return null;
+        return customItemCreator.item2;
     }
 
     private ItemStack ART_MINO(Player p, int rogMino) {
-        return null;
+        return customItemCreator.item1;
     }
 }
