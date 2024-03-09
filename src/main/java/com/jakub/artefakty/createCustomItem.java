@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class createCustomItem {
-    private ItemStack createCustomItem(Material material, String name, List<String> descriptions) {
+    ItemStack createCustomItem(Material material, String name, List<String> descriptions) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
@@ -27,10 +27,10 @@ public class createCustomItem {
 
     List<String> odpNie = Arrays.asList("§cPosiadane: §9§lnie", "§8Bonus: §0brak");
 
-    ItemStack item1 = createCustomItem(Material.GREEN_DYE, "§2Róg Minotaura", odpTakRog);
+    ItemStack item1 = createCustomItem(Material.GREEN_DYE, "§2Róg Minotaura", odpNie);
     ItemStack item2 = createCustomItem(Material.GREEN_DYE, "§6Wyrwane Ślepie Pradawnego", odpNie);
     ItemStack item3 = createCustomItem(Material.GREEN_DYE, "§3Berło Króla Północy", odpNie);
     ItemStack item4 = createCustomItem(Material.GREEN_DYE, "§5Klepsydra z Piaskiem Życia", odpNie);
     ItemStack item5 = createCustomItem(Material.GREEN_DYE, "§5Niebieska Kosa 3000", odpNie);
-    ItemStack item6 = createCustomItem(Material.GREEN_DYE, "§4Fałszywy Flogiston", odpTakFlogiston);
+    ItemStack item6 = createCustomItem(Material.GREEN_DYE, "§4Fałszywy Flogiston", odpNie);
 }
