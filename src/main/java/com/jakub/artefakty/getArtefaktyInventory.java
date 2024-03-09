@@ -1,5 +1,6 @@
 package com.jakub.artefakty;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -16,7 +17,6 @@ public class getArtefaktyInventory {
         meta.setDisplayName(" ");
         FILL_BLACK.setItemMeta(meta);
     }
-
 
     public Inventory getArtefaktyInventory(int rogMino, int slepiePradawnego, int berloKrola, int klepsydraReaper, int kosaNiebieskiej, int substancjaKsiecia) {
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK).addEventInventoryOpen((p, e) -> {
@@ -36,22 +36,22 @@ public class getArtefaktyInventory {
                     if (e.getView().getTitle().equals("§6Twoje Trofea")) {
                         switch (e.getSlot()) {
                             case 10:
-                                p.openInventory(getUpgradeInventory(true , rogMino));
+                                // p.openInventory(getUpgradeInventory(true , rogMino));
                                 break;
                             case 11:
-                                p.openInventory(getUpgradeInventory(false , slepiePradawnego));
+                                // p.openInventory(getUpgradeInventory(false , slepiePradawnego));
                                 break;
                             case 12:
-                                p.openInventory(getUpgradeInventory(false , berloKrola));
+                                // p.openInventory(getUpgradeInventory(false , berloKrola));
                                 break;
                             case 14:
-                                p.openInventory(getUpgradeInventory(false , klepsydraReaper));
+                                // p.openInventory(getUpgradeInventory(false , klepsydraReaper));
                                 break;
                             case 15:
-                                p.openInventory(getUpgradeInventory(false , kosaNiebieskiej));
+                                // p.openInventory(getUpgradeInventory(false , kosaNiebieskiej));
                                 break;
                             case 16:
-                                p.openInventory(getUpgradeInventory(false , substancjaKsiecia));
+                                // p.openInventory(getUpgradeInventory(false , substancjaKsiecia));
                                 break;
                         }
                     }
@@ -60,7 +60,13 @@ public class getArtefaktyInventory {
     }
 
     private Inventory getUpgradeInventory(boolean b, int slepiePradawnego) {
-        return null;
+        // Tworzenie nowego ekwipunku
+        Inventory inventory = Bukkit.createInventory(null, 9, "Upgrade Inventory");
+
+        // Dodawanie przedmiotów do ekwipunku
+        // ...
+
+        return inventory;
     }
 
     private ItemStack ART_ESKA(Player p, int substancjaKsiecia) {
