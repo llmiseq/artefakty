@@ -15,10 +15,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.*;
+
 public class GuiCommands implements CommandExecutor, Listener {
 
     private createCustomItem customItemCreator;
     private getArtefaktyInventory artefaktyInventory;
+    private Map<UUID, Map<String, Integer>> playerItems = new HashMap<>(); // Nowa mapa
+
 
     public GuiCommands(getArtefaktyInventory artefaktyInventory) {
         this.artefaktyInventory = artefaktyInventory;
@@ -57,23 +61,30 @@ public class GuiCommands implements CommandExecutor, Listener {
             Player player = (Player) event.getWhoClicked();
             int clickedSlot = event.getSlot();
 
-            // Dodaj to sprawdzenie
             if (event.getView().getTitle().equals("§6Twoje Trofea")) {
-                // Sprawdź, czy kliknięty slot to jeden z wymienionych
                 if (clickedSlot == 10 || clickedSlot == 11 || clickedSlot == 12 || clickedSlot == 14 || clickedSlot == 15 || clickedSlot == 16) {
-                    ItemStack clickedItem = event.getCurrentItem(); // Pobierz kliknięty przedmiot
+                    ItemStack clickedItem = event.getCurrentItem();
 
-                    // Sprawdź, czy gracz ma taki przedmiot
+                    // Sprawdź, czy gracz ma już maksymalną liczbę przedmiotów
+                    int maxItemsPerPlayer = 1;
+                    Map<String, Integer> playerInventory = playerItems.getOrDefault(player.getUniqueId(), new HashMap<>());
+                    int currentItems = playerInventory.getOrDefault(clickedItem.getItemMeta().getDisplayName(), 0);
+                    if (currentItems >= maxItemsPerPlayer) {
+                        player.sendMessage("§cNie możesz dodać więcej takich przedmiotów!");
+                        return;
+                    }
+
                     if (removeItem(player, clickedItem)) {
-                        player.sendMessage("Dodano " + clickedItem.getItemMeta().getDisplayName()); // Wyślij wiadomość o dodaniu
+                        player.sendMessage("Dodano " + clickedItem.getItemMeta().getDisplayName());
+                        playerInventory.put(clickedItem.getItemMeta().getDisplayName(), currentItems + 1); // Aktualizuj mapę
+                        playerItems.put(player.getUniqueId(), playerInventory);
                     } else {
-                        player.sendMessage("§eBłąd, nie posiadasz przedmiotu " + clickedItem.getItemMeta().getDisplayName() + " w swoim ekwipunku"); // Wyślij wiadomość o błędzie
+                        player.sendMessage("§eBłąd, nie posiadasz przedmiotu " + clickedItem.getItemMeta().getDisplayName() + " w swoim ekwipunku");
                     }
                 }
             }
         }
     }
-
 
 }
 
