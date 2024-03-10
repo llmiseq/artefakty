@@ -4,6 +4,8 @@ main: com.jakub.artefakty.Artefakty
 api-version: '1.19'
 commands:
   trofeum:
-    description: Otwiera ekwipunek z trofeami.
+    description: Otwiera ekwipunek trofeów.
   trofea:
-    description: Otwiera ekwipunek z trofeami.
+    description: Otwiera ekwipunek trofeów.
+  trofea admin clear:
+    description: Usuwa określony przedmiot z ekwipunku trofeów.
