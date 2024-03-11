@@ -18,12 +18,12 @@ public class createCustomItem {
     }
 
     // Użyłem metody createCustomItem do stworzenia przedmiotu z pięcioma linijkami opisu
-    List<String> odpTakRog = Arrays.asList("§8Bonus: §65% wiecej zadawanych obrażeń");
-    List<String> odpTakSlepie = Arrays.asList("§8Bonus: §65% więcej defensywy");
-    List<String> odpTakBerlo = Arrays.asList("§8Bonus: §6stały efekt ogrzania");
-    List<String> odpTakKlepsydra = Arrays.asList("§8Bonus: §65% więcej zdrowia");
-    List<String> odpTakKosa = Arrays.asList("§8Bonus: §67% więcej szansy na kryta");
-    List<String> odpTakFlogiston = Arrays.asList("§8Bonus: §6szansa na odporność na ogień");
+    List<String> odpTakRog = Arrays.asList("§7§lBonus: §65% wiecej zadawanych obrażeń");
+    List<String> odpTakSlepie = Arrays.asList("§7§lBonus: §65% więcej defensywy");
+    List<String> odpTakBerlo = Arrays.asList("§7§lBonus: §6stały efekt ogrzania");
+    List<String> odpTakKlepsydra = Arrays.asList("§7§lBonus: §65% więcej zdrowia");
+    List<String> odpTakKosa = Arrays.asList("§7§lBonus: §67% więcej szansy na kryta");
+    List<String> odpTakFlogiston = Arrays.asList("§7§lBonus: §6szansa na odporność na ogień");
 
     List<String> odpNie = Arrays.asList("§cPosiadane: §9§lnie", "§8Bonus: §0brak");
 

@@ -9,8 +9,5 @@
         <module name="artefakty" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="artefakty" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
