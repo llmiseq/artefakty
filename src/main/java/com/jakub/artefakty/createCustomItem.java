@@ -17,20 +17,20 @@ public class createCustomItem {
         return item;
     }
 
-    // Użyj metody createCustomItem do stworzenia przedmiotu z pięcioma linijkami opisu
-    List<String> odpTakRog = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §65% wiecej zadawanych obrażeń");
-    List<String> odpTakSlepie = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §65% więcej defensywy");
-    List<String> odpTakBerlo = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §6stały efekt ogrzania");
-    List<String> odpTakKlepsydra = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §65% więcej zdrowia");
-    List<String> odpTakKosa = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §67% więcej szansy na kryta");
-    List<String> odpTakFlogiston = Arrays.asList("§cPosiadane: §e§ltak", "§8Bonus: §6szansa na odporność na ogień");
+    // Użyłem metody createCustomItem do stworzenia przedmiotu z pięcioma linijkami opisu
+    List<String> odpTakRog = Arrays.asList("§8Bonus: §65% wiecej zadawanych obrażeń");
+    List<String> odpTakSlepie = Arrays.asList("§8Bonus: §65% więcej defensywy");
+    List<String> odpTakBerlo = Arrays.asList("§8Bonus: §6stały efekt ogrzania");
+    List<String> odpTakKlepsydra = Arrays.asList("§8Bonus: §65% więcej zdrowia");
+    List<String> odpTakKosa = Arrays.asList("§8Bonus: §67% więcej szansy na kryta");
+    List<String> odpTakFlogiston = Arrays.asList("§8Bonus: §6szansa na odporność na ogień");
 
     List<String> odpNie = Arrays.asList("§cPosiadane: §9§lnie", "§8Bonus: §0brak");
 
-    ItemStack item1 = createCustomItem(Material.GREEN_DYE, "§2Róg Minotaura", odpNie);
-    ItemStack item2 = createCustomItem(Material.GREEN_DYE, "§6Wyrwane Ślepie Pradawnego", odpNie);
-    ItemStack item3 = createCustomItem(Material.GREEN_DYE, "§3Berło Króla Północy", odpNie);
-    ItemStack item4 = createCustomItem(Material.GREEN_DYE, "§5Klepsydra z Piaskiem Życia", odpNie);
-    ItemStack item5 = createCustomItem(Material.GREEN_DYE, "§5Niebieska Kosa 3000", odpNie);
-    ItemStack item6 = createCustomItem(Material.GREEN_DYE, "§4Fałszywy Flogiston", odpNie);
+    ItemStack item1 = createCustomItem(Material.GREEN_DYE, "§2Róg Minotaura", odpTakRog);
+    ItemStack item2 = createCustomItem(Material.GREEN_DYE, "§6Wyrwane Ślepie Pradawnego", odpTakSlepie);
+    ItemStack item3 = createCustomItem(Material.GREEN_DYE, "§3Berło Króla Północy", odpTakBerlo);
+    ItemStack item4 = createCustomItem(Material.GREEN_DYE, "§5Klepsydra z Piaskiem Życia", odpTakKlepsydra);
+    ItemStack item5 = createCustomItem(Material.GREEN_DYE, "§5Niebieska Kosa 3000", odpTakKosa);
+    ItemStack item6 = createCustomItem(Material.GREEN_DYE, "§4Fałszywy Flogiston", odpTakFlogiston);
 }
