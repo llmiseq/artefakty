@@ -27,7 +27,7 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
 
     private Map<String, String> itemNames = new HashMap<>();
 
-    public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin) {
+    public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin, Rewards rewards) {
         this.artefaktyInventory = artefaktyInventory;
         this.customItemCreator = new createCustomItem();
         this.plugin = plugin;
@@ -87,51 +87,9 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
 
 
 
-    private boolean removeItem(Player player, ItemStack clickedItem) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.getType() == clickedItem.getType() && item.getItemMeta().getDisplayName().equals(clickedItem.getItemMeta().getDisplayName())) {
-                if (item.getAmount() > 1) {
-                    item.setAmount(item.getAmount() - 1);
-                } else {
-                    player.getInventory().remove(item);
-                }
-                player.updateInventory(); // Aktualizuj ekwipunek gracza
-                return true;
-            }
-        }
-        return false;
-    }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
-            int clickedSlot = event.getSlot();
 
-            if (event.getView().getTitle().equals("§6Twoje Trofea")) {
-                if (clickedSlot == 10 || clickedSlot == 11 || clickedSlot == 12 || clickedSlot == 14 || clickedSlot == 15 || clickedSlot == 16) {
-                    ItemStack clickedItem = event.getCurrentItem();
 
-                    // Sprawdź, czy gracz ma już maksymalną liczbę przedmiotów
-                    int maxItemsPerPlayer = 1;
-                    String playerKey = player.getUniqueId().toString() + "." + clickedItem.getItemMeta().getDisplayName();
-                    int currentItems = plugin.getConfig().getInt(playerKey, 0);
-                    if (currentItems >= maxItemsPerPlayer) {
-                        player.sendMessage("§b§lSky§aMMO §cNie możesz dodać więcej takich przedmiotów!");
-                        return;
-                    }
-
-                    if (removeItem(player, clickedItem)) {
-                        player.sendMessage("§b§lSky§aMMO §eDodano " + clickedItem.getItemMeta().getDisplayName());
-                        plugin.getConfig().set(playerKey, currentItems + 1); // Aktualizuj konfigurację
-                        plugin.saveConfig(); // Zapisz konfigurację
-                    } else {
-                        player.sendMessage("§b§lSky§aMMO §eBłąd, nie posiadasz przedmiotu " + clickedItem.getItemMeta().getDisplayName() + " w swoim ekwipunku");
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {

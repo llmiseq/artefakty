@@ -1,5 +1,12 @@
 com\jakub\artefakty\getArtefaktyInventory.class
-com\jakub\artefakty\createCustomItem.class
+com\jakub\artefakty\ArtefaktModel.class
+com\jakub\artefakty\Rewards.class
+com\jakub\artefakty\Artefakty$1.class
+com\jakub\artefakty\InventoryInit.class
+com\jakub\artefakty\InventoryManager.class
+com\jakub\artefakty\ArtefaktModel$maxInEq.class
+com\jakub\artefakty\ArtefaktModel$slotInEq.class
 com\jakub\artefakty\Artefakty.class
 com\jakub\artefakty\GuiCommands.class
-com\jakub\artefakty\InventoryManager.class
+com\jakub\artefakty\YamlData.class
+com\jakub\artefakty\createCustomItem.class
