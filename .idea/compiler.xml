@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="artefakty" options="--add-exports java.base/jdk.internal.event=ALL-UNNAMED --add-exports jdk.jfr/jdk.jfr.internal=ALL-UNNAMED,ALL-UNNAMED" />
+      <module name="artefakty" options="" />
     </option>
   </component>
 </project>
