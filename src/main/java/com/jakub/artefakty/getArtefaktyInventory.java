@@ -45,9 +45,10 @@ public class getArtefaktyInventory {
     }
 
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
-        // Sprawdź, czy gracz ma już maksymalną liczbę przedmiotów
-        int maxItemsPerPlayer = 1;
-        String playerKey = player.getUniqueId().toString() + "." + clickedItem.getItemMeta().getDisplayName();
+        // Odczytaj maxItemsPerPlayer z pliku konfiguracyjnego dla danego artefaktu
+        String artefactKey = clickedItem.getItemMeta().getDisplayName();
+        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 1);
+        String playerKey = player.getUniqueId().toString() + "." + artefactKey;
         int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
         if (currentItems >= maxItemsPerPlayer) {
             player.sendMessage("§b§lSky§aMMO §cNie możesz dodać więcej takich przedmiotów!");
