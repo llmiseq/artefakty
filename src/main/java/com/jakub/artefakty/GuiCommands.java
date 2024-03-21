@@ -18,18 +18,17 @@ import java.util.stream.Collectors;
 
 public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
 
-    private createCustomItem customItemCreator;
+
     private getArtefaktyInventory artefaktyInventory;
-    private Map<UUID, Map<String, Integer>> playerItems = new HashMap<>(); // Nowa mapa
+
     private Artefakty plugin;
-    private UUID[] args;
-    private String itemKey;
+
 
     private Map<String, String> itemNames = new HashMap<>();
 
-    public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin, Rewards rewards) {
+    public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin) {
         this.artefaktyInventory = artefaktyInventory;
-        this.customItemCreator = new createCustomItem();
+
         this.plugin = plugin;
         itemNames.put("rogMino", "§2Róg Minotaura");
         itemNames.put("slepiePradawnego", "§6Wyrwane Ślepie Pradawnego");
@@ -39,6 +38,9 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
         itemNames.put("substancjaKsiecia", "§4Fałszywy Flogiston");
     }
 
+    public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin, Rewards rewards) {
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (commandSender instanceof Player) {
@@ -46,49 +48,44 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
             if (args.length > 3 && args[0].equals("admin") && args[1].equals("clear")) {
                 String itemKey = args[2];
                 Player targetPlayer = Bukkit.getPlayer(args[3]);
-                if (targetPlayer != null) {
-                    if (itemKey.equals("all")) {
-                        for (String configItemName : itemNames.values()) {
-                            String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                            if (plugin.getConfig().contains(playerKey)) {
-                                plugin.getConfig().set(playerKey, null); // Usuń klucz z konfiguracji
-                            }
-                        }
-                        player.sendMessage("§b§lSky§aMMO §cUsunięto wszystkie przedmioty graczu " + targetPlayer.getName());
-                    } else {
-                        String configItemName = itemNames.get(itemKey);
-                        if (configItemName != null) {
-                            String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                            if (plugin.getConfig().contains(playerKey)) {
-                                int currentItems = plugin.getConfig().getInt(playerKey, 1);
-                                plugin.getConfig().set(playerKey, currentItems - 1); // Usuń klucz z konfiguracji
-                                player.sendMessage("§b§lSky§aMMO §cUsunięto " + itemKey + " graczu " + targetPlayer.getName());
-                            } else {
-                                player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu " + itemKey + ", ponieważ nie istnieje w konfiguracji.");
-                            }
-                        } else {
-                            player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + itemKey);
+                if (targetPlayer == null) {
+                    player.sendMessage("§b§lSky§aMMO §cNie znaleziono gracza " + args[3]);
+                    return true;
+                }
+                if (itemKey.equals("all")) {
+                    for (String configItemName : itemNames.values()) {
+                        String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
+                        if (plugin.getConfig().contains(playerKey)) {
+                            plugin.getConfig().set(playerKey, null); // Usuń klucz z konfiguracji
                         }
                     }
-                    plugin.saveConfig(); // Zapisz konfigurację
+                    player.sendMessage("§b§lSky§aMMO §cUsunięto wszystkie przedmioty graczu " + targetPlayer.getName());
                 } else {
-                    player.sendMessage("§b§lSky§aMMO §cNie znaleziono gracza " + args[3]);
+                    String configItemName = itemNames.get(itemKey);
+                    if (configItemName == null) {
+                        player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + itemKey);
+                        return true;
+                    }
+                    String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
+                    if (!plugin.getConfig().contains(playerKey)) {
+                        player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu " + itemKey + ", ponieważ nie istnieje w konfiguracji.");
+                        return true;
+                    }
+                    int currentItems = plugin.getConfig().getInt(playerKey, 1);
+                    plugin.getConfig().set(playerKey, currentItems - 1); // Usuń klucz z konfiguracji
+                    player.sendMessage("§b§lSky§aMMO §cUsunięto " + itemKey + " graczu " + targetPlayer.getName());
+
+
                 }
+                plugin.saveConfig(); // Zapisz konfigurację
+
             } else {
                 player.sendMessage("§b§lSky§aMMO §dOtwieram trofea...");
-                player.openInventory(artefaktyInventory.getArtefaktyInventory(1, 2, 3, 4, 5, 6));
+                player.openInventory(artefaktyInventory.getArtefaktyInventory());
             }
         }
         return true;
     }
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -108,8 +105,6 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
         }
         return null;
     }
-
-
 
 
 }

@@ -8,7 +8,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class getArtefaktyInventory {
     private static final ItemStack FILL_BLACK;
-    private createCustomItem customItemCreator = new createCustomItem();
 
     public static YamlData yamlData = new YamlData("Artefakty.yml");
 
@@ -19,13 +18,7 @@ public class getArtefaktyInventory {
         FILL_BLACK.setItemMeta(meta);
     }
 
-    private final MyPlugin myPluginInstance;
-
-    public getArtefaktyInventory() {
-        this.myPluginInstance = MyPlugin.getInstance(); // Pobierz instancję twojego pluginu
-    }
-
-    public Inventory getArtefaktyInventory(int rogMino, int slepiePradawnego, int berloKrola, int klepsydraReaper, int kosaNiebieskiej, int substancjaKsiecia) {
+    public Inventory getArtefaktyInventory() {
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK)
                 .addEventInventoryOpen((p, e) -> {
                     InventoryInit.artefaktModels.forEach(artefaktModel -> {
@@ -45,9 +38,9 @@ public class getArtefaktyInventory {
     }
 
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
-        // Odczytaj maxItemsPerPlayer z pliku konfiguracyjnego dla danego artefaktu
+        // Odczyta maxItemsPerPlayer z pliku konfiguracyjnego dla danego artefaktu
         String artefactKey = clickedItem.getItemMeta().getDisplayName();
-        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 1);
+        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 0);
         String playerKey = player.getUniqueId().toString() + "." + artefactKey;
         int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
         if (currentItems >= maxItemsPerPlayer) {

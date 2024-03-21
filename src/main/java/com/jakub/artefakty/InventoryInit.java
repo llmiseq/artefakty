@@ -15,7 +15,8 @@ import java.util.Set;
 public class InventoryInit {
     public static Set<ArtefaktModel> artefaktModels = new HashSet<>();
 
-    public <SlotInEq> InventoryInit() {
+
+    public InventoryInit() {
         for (String ID : getArtefaktyInventory.yamlData.getConfig().getConfigurationSection("artefakty").getKeys(false)) {
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
@@ -27,8 +28,6 @@ public class InventoryInit {
             int maxInEq = artefaktModel.getMaxInEq();
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
-
-            artefaktModels.add(artefaktModel);
 
             artefaktModels.add(artefaktModel);
         }

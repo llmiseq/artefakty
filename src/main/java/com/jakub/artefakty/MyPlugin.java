@@ -8,6 +8,7 @@ public class MyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         // reszta twojego kodu
     }
 

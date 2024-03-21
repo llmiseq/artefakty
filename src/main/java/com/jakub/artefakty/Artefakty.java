@@ -24,6 +24,7 @@ public class Artefakty extends JavaPlugin {
         inventoryManager = new CInventoryManager(this);
         artefaktyInventory = new getArtefaktyInventory();
         rewards = new Rewards(this);
+        new InventoryInit();
         GuiCommands guiCommands = new GuiCommands(artefaktyInventory, this, rewards); // Przekazuj instancję pluginu do GuiCommands
         getCommand("trofea").setExecutor(guiCommands);
         getCommand("trofea").setTabCompleter(guiCommands);
