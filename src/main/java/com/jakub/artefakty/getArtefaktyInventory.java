@@ -16,6 +16,7 @@ public class getArtefaktyInventory {
         ItemMeta meta = FILL_BLACK.getItemMeta();
         meta.setDisplayName(" ");
         FILL_BLACK.setItemMeta(meta);
+        //System.out.println("Konfiguracja została poprawnie załadowana!"); // Wyświetla się
     }
 
     public Inventory getArtefaktyInventory() {

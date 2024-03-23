@@ -15,22 +15,19 @@ import java.util.Set;
 public class InventoryInit {
     public static Set<ArtefaktModel> artefaktModels = new HashSet<>();
 
-
     public InventoryInit() {
         for (String ID : getArtefaktyInventory.yamlData.getConfig().getConfigurationSection("artefakty").getKeys(false)) {
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
-            ItemStack itemStack = new ItemStack(Material.valueOf( getArtefaktyInventory.yamlData.getConfig().getString("artefakty."+ID+"ItemStack")));
+            ItemStack itemStack = new ItemStack(Material.valueOf(getArtefaktyInventory.yamlData.getConfig().getString("artefakty."+ID+".ItemStack")));
             artefaktModel.setItemStack(itemStack);
 
-
-            int slotInEq = artefaktModel.getSlotInEq();
-            int maxInEq = artefaktModel.getMaxInEq();
+            int slotInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty."+ID+".SlotInEq");
+            int maxInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty."+ID+".MaxInEq");
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
 
             artefaktModels.add(artefaktModel);
         }
-
     }
 }

@@ -1,8 +1,8 @@
 artefakty:
   1:
     ItemStack: DIRT
-    SlotInEq: 2
-    MaxInEq: 5
+    SlotInEq: 1
+    MaxInEq: 1
     Bonuses:
       bonusA:
         bonusMythic: MOVEMENT_SPEED
@@ -26,8 +26,33 @@ artefakty:
         value: 19
   2:
     ItemStack: GRASS_BLOCK
-    SlotInEq: 4
+    SlotInEq: 2
     MaxInEq: 2
+    Bonuses:
+      bonusA:
+        bonusMythic: MOVEMENT_SPEED
+        lore: "§bPrędkość ruchu +14%"
+        type: RELATIVE
+        value: 14
+      bonusB:
+        bonusMythic: ADDITIONAL_EXPERIENCE_DRWALNICTWO
+        lore: "§bExp Drwalnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusC:
+        bonusMythic: ADDITIONAL_EXPERIENCE_GORNICTWO
+        lore: "§bExp Górnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusD:
+        bonusMythic: ADDITIONAL_EXPERIENCE_ROLNICTWO
+        lore: "§bExp Rolnictwa +19%"
+        type: FLAT
+        value: 19
+  3:
+    ItemStack: DIRT
+    SlotInEq: 6
+    MaxInEq: 3
     Bonuses:
       bonusA:
         bonusMythic: MOVEMENT_SPEED

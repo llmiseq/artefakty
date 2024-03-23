@@ -45,11 +45,11 @@ public class Rewards {
             if (itemCount > 0) {
                 // Gracz posiada przedmiot, więc dodaj nagrodę
                 player.addPotionEffect(new PotionEffect(effect, 600, 1));
-                player.sendMessage("Dodano efekt " + effect.getName()); // Informuj gracza
+                //player.sendMessage("Dodano efekt " + effect.getName()); // Informuj gracza
             } else {
                 // Gracz nie posiada przedmiotu, więc usuń go z konfiguracji
                 config.set(player.getUniqueId().toString() + "." + itemName, null);
-                player.sendMessage("Nie dodano efektu " + effect.getName()); // Informuj gracza
+                //player.sendMessage("Nie dodano efektu " + effect.getName()); // Informuj gracza
             }
         }
 
