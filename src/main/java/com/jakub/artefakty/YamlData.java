@@ -3,6 +3,7 @@ package com.jakub.artefakty;
 
 
 import com.google.common.base.Charsets;
+import com.sun.security.auth.login.ConfigFile;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -45,37 +46,38 @@ public class YamlData {
     }
 
     public void reload(){
-        config = YamlConfiguration.loadConfiguration(configFile);
-
-        final InputStream defConfigStream = Artefakty.getInstance().getResource(configFile.getName());
-        if (defConfigStream == null) {
-            return;
-        }
-
-        config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
-    }
-
-    public void save(){
         try {
-            config.save(configFile);
-        } catch (IOException e) {
+            config = YamlConfiguration.loadConfiguration(configFile);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void saveAsync(){
-        executor.execute(() -> {
-            try {
-                config.save(configFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+
+//    public void save(){
+//        try {
+//            config.save(configFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void saveAsync(){
+//        executor.execute(() -> {
+//            try {
+//                config.save(configFile);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
     public YamlConfiguration getConfig() {
         return config;
     }
 
 
+    public File getConfigFile() {
+        return configFile;
+    }
 }

@@ -7,16 +7,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 public class ArtefaktModel {
-
-    private MyPlugin myPluginInstance;
+    private Artefakty myPluginInstance;
     private ItemStack itemStack;
     private int slotInEq;
     private int maxInEq;
     private List<String> bonuses;
 
     public ArtefaktModel() {
-        this.myPluginInstance = MyPlugin.getInstance(); // Pobierz instancję twojego pluginu
+        this.myPluginInstance = Artefakty.getInstance(); // Pobierz instancję twojego pluginu
     }
+
 
     public ItemStack getItemStack() {
         return itemStack;

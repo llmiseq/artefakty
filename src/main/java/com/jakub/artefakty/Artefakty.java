@@ -2,12 +2,16 @@ package com.jakub.artefakty;
 
 import mc.thelblack.custominventory.CInventoryManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
-public class Artefakty extends JavaPlugin {
+public class Artefakty extends JavaPlugin implements Listener{
 
     static CInventoryManager inventoryManager;
     private getArtefaktyInventory artefaktyInventory;
@@ -26,7 +30,10 @@ public class Artefakty extends JavaPlugin {
         artefaktyInventory = new getArtefaktyInventory();
         rewards = new Rewards(this);
 
-        new InventoryInit();
+        Artefakty.getInstance().reloadConfig(); // Dodane przeładowanie konfiguracji
+        loadArtefaktsFromConfig(); // Dodane wczytywanie artefaktów z konfiguracji
+        InventoryInit.loadArtefaktModels();
+
         GuiCommands guiCommands = new GuiCommands(artefaktyInventory, this, rewards);
         getCommand("trofea").setExecutor(guiCommands);
         getCommand("trofea").setTabCompleter(guiCommands);
@@ -46,13 +53,22 @@ public class Artefakty extends JavaPlugin {
         }, 0L, 1200L); // 1200 ticków to około 1 minuta
 
         System.out.println("Metoda onEnable została wywołana!"); // Dodane logowanie
-
-        Artefakty.getInstance().reloadConfig(); // Dodane przeładowanie konfiguracji
     }
 
-    @Override
-    public void onDisable() {
-        // Kod do wykonania podczas wyłączania pluginu
-        System.out.println("Metoda onDisable została wywołana!"); // Dodane logowanie
+    public void loadArtefaktsFromConfig() {
+        FileConfiguration config = Artefakty.getInstance().getConfig();
+        ConfigurationSection artefaktySection = config.getConfigurationSection("artefakty");
+        if (artefaktySection == null) return;
+
+        InventoryInit.artefaktModelList.clear(); // Dodane czyszczenie listy
+
+        for (String key : artefaktySection.getKeys(false)) {
+            ArtefaktModel artefaktModel = new ArtefaktModel();
+            artefaktModel.setItemStack(new ItemStack(Material.valueOf(config.getString("artefakty." + key + ".ItemStack"))));
+            artefaktModel.setSlotInEq(config.getInt("artefakty." + key + ".SlotInEq"));
+            artefaktModel.setMaxInEq(config.getInt("artefakty." + key + ".MaxInEq"));
+            artefaktModel.setBonuses(config.getStringList("artefakty." + key + ".Bonuses"));
+            InventoryInit.artefaktModelList.add(artefaktModel);
+        }
     }
 }

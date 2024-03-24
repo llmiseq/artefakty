@@ -1,7 +1,7 @@
 artefakty:
-  1:
-    ItemStack: DIRT
-    SlotInEq: 1
+  10:
+    ItemStack: GRAVEL
+    SlotInEq: 0
     MaxInEq: 1
     Bonuses:
       bonusA:
@@ -24,7 +24,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  2:
+  11:
     ItemStack: GRASS_BLOCK
     SlotInEq: 2
     MaxInEq: 2
@@ -49,9 +49,84 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  3:
-    ItemStack: DIRT
-    SlotInEq: 6
+  12:
+    ItemStack: SAND
+    SlotInEq: 7
+    MaxInEq: 3
+    Bonuses:
+      bonusA:
+        bonusMythic: MOVEMENT_SPEED
+        lore: "§bPrędkość ruchu +14%"
+        type: RELATIVE
+        value: 14
+      bonusB:
+        bonusMythic: ADDITIONAL_EXPERIENCE_DRWALNICTWO
+        lore: "§bExp Drwalnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusC:
+        bonusMythic: ADDITIONAL_EXPERIENCE_GORNICTWO
+        lore: "§bExp Górnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusD:
+        bonusMythic: ADDITIONAL_EXPERIENCE_ROLNICTWO
+        lore: "§bExp Rolnictwa +19%"
+        type: FLAT
+        value: 19
+  14:
+    ItemStack: SAND
+    SlotInEq: 7
+    MaxInEq: 3
+    Bonuses:
+      bonusA:
+        bonusMythic: MOVEMENT_SPEED
+        lore: "§bPrędkość ruchu +14%"
+        type: RELATIVE
+        value: 14
+      bonusB:
+        bonusMythic: ADDITIONAL_EXPERIENCE_DRWALNICTWO
+        lore: "§bExp Drwalnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusC:
+        bonusMythic: ADDITIONAL_EXPERIENCE_GORNICTWO
+        lore: "§bExp Górnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusD:
+        bonusMythic: ADDITIONAL_EXPERIENCE_ROLNICTWO
+        lore: "§bExp Rolnictwa +19%"
+        type: FLAT
+        value: 19
+  15:
+    ItemStack: SAND
+    SlotInEq: 7
+    MaxInEq: 3
+    Bonuses:
+      bonusA:
+        bonusMythic: MOVEMENT_SPEED
+        lore: "§bPrędkość ruchu +14%"
+        type: RELATIVE
+        value: 14
+      bonusB:
+        bonusMythic: ADDITIONAL_EXPERIENCE_DRWALNICTWO
+        lore: "§bExp Drwalnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusC:
+        bonusMythic: ADDITIONAL_EXPERIENCE_GORNICTWO
+        lore: "§bExp Górnictwa +19%"
+        type: FLAT
+        value: 19
+      bonusD:
+        bonusMythic: ADDITIONAL_EXPERIENCE_ROLNICTWO
+        lore: "§bExp Rolnictwa +19%"
+        type: FLAT
+        value: 19
+  16:
+    ItemStack: SAND
+    SlotInEq: 7
     MaxInEq: 3
     Bonuses:
       bonusA:
