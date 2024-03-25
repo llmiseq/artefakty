@@ -5,6 +5,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.units.qual.A;
 
 import java.io.File;
@@ -40,6 +41,7 @@ public class InventoryInit {
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
             String materialName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".ItemStack");
+
             ItemStack itemStack;
             if (materialName != null) {
                 itemStack = new ItemStack(Material.valueOf(materialName));
@@ -70,17 +72,5 @@ public class InventoryInit {
             System.out.println("SlotInEq: " + model.getSlotInEq());
             System.out.println("MaxInEq: " + model.getMaxInEq());
         }
-
-        // Dodaj logi dla setlisty artefaktModels
-        System.out.println("Zawartość setlisty artefaktModels:");
-        for (ArtefaktModel model : artefaktModels) {
-            System.out.println(model);  // Wywołanie metody toString()
-        }
     }
-
-
-
 }
-
-
-

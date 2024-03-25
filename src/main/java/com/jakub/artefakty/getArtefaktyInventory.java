@@ -16,29 +16,44 @@ public class getArtefaktyInventory {
         ItemMeta meta = FILL_BLACK.getItemMeta();
         meta.setDisplayName(" ");
         FILL_BLACK.setItemMeta(meta);
-        //System.out.println("Konfiguracja została poprawnie załadowana!"); // Wyświetla się
     }
 
     public Inventory getArtefaktyInventory() {
+        System.out.println("++++++++++++++++++");
+        System.out.println("Klasa: " + this.getClass().getSimpleName());
+        System.out.println("++++++++++++++++++");
+        System.out.println("Wywołano metodę getArtefaktyInventory");
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK)
                 .addEventInventoryOpen((p, e) -> {
+                    System.out.println("++++++++++++++++++");
+                    System.out.println("Klasa: " + this.getClass().getSimpleName());
+                    System.out.println("++++++++++++++++++");
+                    System.out.println("Wywołano zdarzenie otwarcia ekwipunku dla gracza: " + p.getName());
                     InventoryInit.artefaktModels.forEach(artefaktModel -> {
-                        e.getInventory().setItem(artefaktModel.getSlotInEq(), artefaktModel.getPlayerItem(p));
+                        System.out.println("Przetwarzam model artefaktu: " + artefaktModel);
+                        ItemStack item = artefaktModel.getPlayerItem(p);
+                        e.getInventory().setItem(artefaktModel.getSlotInEq(), item);
                     });
                 })
                 .addEventInventoryClick((p, e) -> {
+                    System.out.println("++++++++++++++++++");
+                    System.out.println("Klasa: " + this.getClass().getSimpleName());
+                    System.out.println("++++++++++++++++++");
+                    System.out.println("Wywołano zdarzenie kliknięcia w ekwipunek dla gracza: " + p.getName());
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
                     e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu
 
                     ItemStack clickedItem = e.getCurrentItem();
 
                     // Wywołaj metodę handlePlayerInteraction
+                    System.out.println("Kliknięto przedmiot: " + clickedItem);
                     handlePlayerInteraction(p, clickedItem);
                 })
                 .build();
     }
 
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
+        System.out.println("Wywołano metodę handlePlayerInteraction dla gracza: " + player.getName());
         // Odczyta maxItemsPerPlayer z pliku konfiguracyjnego dla danego artefaktu
         String artefactKey = clickedItem.getItemMeta().getDisplayName();
         int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 0);
@@ -58,6 +73,7 @@ public class getArtefaktyInventory {
 
     // Tutaj zaimplementowałem metodę removeItem do usuwania
     public boolean removeItem(Player player, ItemStack item) {
+        System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
         // Implementacja metody removeItem
         return false; // Zwróć prawdziwą wartość, jeśli przedmiot został pomyślnie usunięty
     }

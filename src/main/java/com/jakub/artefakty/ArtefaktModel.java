@@ -17,7 +17,6 @@ public class ArtefaktModel {
         this.myPluginInstance = Artefakty.getInstance(); // Pobierz instancję twojego pluginu
     }
 
-
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -50,11 +49,10 @@ public class ArtefaktModel {
         this.bonuses = bonuses;
     }
 
-    public ItemStack getPlayerItem(Player player){
+    public ItemStack getPlayerItem(Player player) {
+        System.out.println("Wywołano metodę getPlayerItem dla gracza: " + player.getName());
         ItemStack itemStack1 = this.itemStack.clone();
-        ItemMeta im = itemStack1.getItemMeta();
-        im.setLore(List.of(player.getLevel()+""));
-        itemStack1.setItemMeta(im);
         return itemStack1;
     }
+
 }

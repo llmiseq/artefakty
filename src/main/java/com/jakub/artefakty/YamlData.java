@@ -54,24 +54,6 @@ public class YamlData {
     }
 
 
-//    public void save(){
-//        try {
-//            config.save(configFile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void saveAsync(){
-//        executor.execute(() -> {
-//            try {
-//                config.save(configFile);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//    }
-
     public YamlConfiguration getConfig() {
         return config;
     }

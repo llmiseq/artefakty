@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.List;
+
 public class Artefakty extends JavaPlugin implements Listener{
 
     static CInventoryManager inventoryManager;
@@ -56,19 +58,23 @@ public class Artefakty extends JavaPlugin implements Listener{
     }
 
     public void loadArtefaktsFromConfig() {
+        System.out.println("Wywołano metodę loadArtefaktsFromConfig");
         FileConfiguration config = Artefakty.getInstance().getConfig();
         ConfigurationSection artefaktySection = config.getConfigurationSection("artefakty");
         if (artefaktySection == null) return;
 
-        InventoryInit.artefaktModelList.clear(); // Dodane czyszczenie listy
+        InventoryInit.artefaktModels.clear(); // Dodane czyszczenie listy
 
         for (String key : artefaktySection.getKeys(false)) {
+            System.out.println("Przetwarzam klucz: " + key);
             ArtefaktModel artefaktModel = new ArtefaktModel();
             artefaktModel.setItemStack(new ItemStack(Material.valueOf(config.getString("artefakty." + key + ".ItemStack"))));
             artefaktModel.setSlotInEq(config.getInt("artefakty." + key + ".SlotInEq"));
             artefaktModel.setMaxInEq(config.getInt("artefakty." + key + ".MaxInEq"));
             artefaktModel.setBonuses(config.getStringList("artefakty." + key + ".Bonuses"));
-            InventoryInit.artefaktModelList.add(artefaktModel);
+
+            InventoryInit.artefaktModels.add(artefaktModel);
+            System.out.println("Dodano model artefaktu: " + artefaktModel);
         }
     }
 }

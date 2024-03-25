@@ -1,5 +1,5 @@
 artefakty:
-  10:
+  rogMino:
     ItemStack: GRAVEL
     SlotInEq: 0
     MaxInEq: 1
@@ -24,7 +24,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  11:
+  slepiePradawnego:
     ItemStack: GRASS_BLOCK
     SlotInEq: 2
     MaxInEq: 2
@@ -49,7 +49,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  12:
+  berloKrola:
     ItemStack: SAND
     SlotInEq: 7
     MaxInEq: 3
@@ -74,7 +74,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  14:
+  klepsydraReaper:
     ItemStack: SAND
     SlotInEq: 7
     MaxInEq: 3
@@ -99,7 +99,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  15:
+  kosaNiebieskiej:
     ItemStack: SAND
     SlotInEq: 7
     MaxInEq: 3
@@ -124,7 +124,7 @@ artefakty:
         lore: "§bExp Rolnictwa +19%"
         type: FLAT
         value: 19
-  16:
+  substancjaKsiecia:
     ItemStack: SAND
     SlotInEq: 7
     MaxInEq: 3
