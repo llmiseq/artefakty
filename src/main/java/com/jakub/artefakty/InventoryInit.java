@@ -1,33 +1,23 @@
 package com.jakub.artefakty;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.File;
-import java.util.*;
-
-import static javax.swing.text.html.parser.DTDConstants.ID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryInit {
     public static List<ArtefaktModel> artefaktModels = new ArrayList<>();
 
-    public static List<ArtefaktModel> artefaktModelList = new ArrayList<>();
-
-
     public static void loadArtefaktModels() {
-        // Dodaj logi
         System.out.println("loadArtefaktModels() called from:");
         for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
             System.out.println(ste);
         }
 
         artefaktModels.clear(); // Dodaj tę linię
-        artefaktModelList.clear(); // Dodane czyszczenie listy
 
         for (String ID : getArtefaktyInventory.yamlData.getConfig().getConfigurationSection("artefakty").getKeys(false)) {
             System.out.println("Aktualne ID: " + ID);
@@ -42,6 +32,14 @@ public class InventoryInit {
 
             String materialName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".ItemStack");
             String displayName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".name"); // Dodane wczytywanie nazwy
+
+            // Dodane logowanie klucza "lore"
+            System.out.println("Klucz lore: " + "artefakty." + ID + ".Lore");
+
+            List<String> lore = getArtefaktyInventory.yamlData.getConfig().getStringList("artefakty." + ID + ".Lore"); // Dodane wczytywanie lore
+
+            // Dodane logowanie wartości "lore"
+            System.out.println("Wartość lore: " + lore);
 
             ItemStack itemStack;
             if (materialName != null) {
@@ -63,6 +61,15 @@ public class InventoryInit {
                 System.out.println("Błąd: Brak nazwy wyświetlanej dla artefaktu " + ID);
             }
 
+            ItemMeta meta = itemStack.getItemMeta(); // Pobierz ItemMeta z ItemStack
+            if (displayName != null) {
+                meta.setDisplayName(displayName); // Ustaw nazwę wyświetlaną
+            }
+            if (lore != null && !lore.isEmpty()) {
+                meta.setLore(lore); // Ustaw lore
+            }
+            itemStack.setItemMeta(meta); // Zastosuj zmiany do ItemStack
+
             artefaktModels.add(artefaktModel);
 
             // Dodaj logi
@@ -71,17 +78,8 @@ public class InventoryInit {
             System.out.println("SlotInEq: " + slotInEq);
             System.out.println("MaxInEq: " + maxInEq);
             System.out.println("Name: " + displayName); // Dodane logowanie nazwy
+            System.out.println("Lore: " + lore); // Dodane logowanie lore
         }
-
-
-        // Dodaj logi dla setlisty artefaktModels
-        for (ArtefaktModel model : artefaktModels) {
-            System.out.println("ArtefaktModel: " + model);
-            System.out.println("ItemStack: " + model.getItemStack());
-            System.out.println("SlotInEq: " + model.getSlotInEq());
-            System.out.println("MaxInEq: " + model.getMaxInEq());
-            System.out.println("Name: " + model.getName()); // Dodane logowanie nazwy
-        }
-
     }
+
 }

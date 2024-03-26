@@ -13,11 +13,11 @@ public class ArtefaktModel {
     private int maxInEq;
     private List<String> bonuses;
     private String name;
+    private List<String> lore; // Dodane pole lore
 
     public ArtefaktModel() {
         this.myPluginInstance = Artefakty.getInstance(); // Pobierz instancję twojego pluginu
     }
-
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -62,5 +62,14 @@ public class ArtefaktModel {
 
     public void setName(String name) {
         this.name = name; // Ustawia wartość pola name
+    }
+
+
+    public List<String> getLore() {
+        return lore; // Zwraca wartość pola lore
+    }
+
+    public void setLore(List<String> lore) {
+        this.lore = lore; // Ustawia wartość pola lore
     }
 }

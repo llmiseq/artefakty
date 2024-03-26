@@ -74,8 +74,14 @@ public class Artefakty extends JavaPlugin implements Listener{
             artefaktModel.setMaxInEq(config.getInt("artefakty." + key + ".MaxInEq"));
             artefaktModel.setBonuses(config.getStringList("artefakty." + key + ".Bonuses"));
 
-            InventoryInit.artefaktModels.add(artefaktModel);
-            System.out.println("Dodano model artefaktu: " + artefaktModel);
+            List<String> lore = config.getStringList("artefakty." + key + ".lore"); // Dodane wczytywanie lore
+            if (lore != null) {
+                ItemMeta meta = artefaktModel.getItemStack().getItemMeta();
+                meta.setLore(lore); // Dodane ustawianie lore
+                artefaktModel.getItemStack().setItemMeta(meta);
+                artefaktModel.setLore(lore); // Dodane ustawianie lore w modelu
+            }
+
             String displayName = config.getString("artefakty." + key + ".name");
             if (displayName != null) {
                 ItemMeta meta = artefaktModel.getItemStack().getItemMeta();
@@ -84,6 +90,9 @@ public class Artefakty extends JavaPlugin implements Listener{
             } else {
                 System.out.println("Błąd: Brak nazwy wyświetlanej dla artefaktu " + key);
             }
+
+            InventoryInit.artefaktModels.add(artefaktModel);
+            System.out.println("Dodano model artefaktu: " + artefaktModel);
         }
     }
 }

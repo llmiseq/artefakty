@@ -1,7 +1,4 @@
 package com.jakub.artefakty;
-
-
-
 import com.google.common.base.Charsets;
 import com.sun.security.auth.login.ConfigFile;
 import org.bukkit.configuration.file.YamlConfiguration;
