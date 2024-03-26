@@ -19,26 +19,20 @@ public class getArtefaktyInventory {
     }
 
     public Inventory getArtefaktyInventory() {
-        System.out.println("++++++++++++++++++");
-        System.out.println("Klasa: " + this.getClass().getSimpleName());
-        System.out.println("++++++++++++++++++");
         System.out.println("Wywołano metodę getArtefaktyInventory");
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK)
                 .addEventInventoryOpen((p, e) -> {
-                    System.out.println("++++++++++++++++++");
-                    System.out.println("Klasa: " + this.getClass().getSimpleName());
-                    System.out.println("++++++++++++++++++");
                     System.out.println("Wywołano zdarzenie otwarcia ekwipunku dla gracza: " + p.getName());
                     InventoryInit.artefaktModels.forEach(artefaktModel -> {
                         System.out.println("Przetwarzam model artefaktu: " + artefaktModel);
-                        ItemStack item = artefaktModel.getPlayerItem(p);
+                        ItemStack item = artefaktModel.getItemStack().clone(); // Klonuj ItemStack, aby uniknąć zmiany oryginalnego modelu
+                        ItemMeta meta = item.getItemMeta();
+                        meta.setDisplayName(artefaktModel.getName()); // Ustaw nazwę wyświetlaną na wartość z pliku konfiguracyjnego
+                        item.setItemMeta(meta);
                         e.getInventory().setItem(artefaktModel.getSlotInEq(), item);
                     });
                 })
                 .addEventInventoryClick((p, e) -> {
-                    System.out.println("++++++++++++++++++");
-                    System.out.println("Klasa: " + this.getClass().getSimpleName());
-                    System.out.println("++++++++++++++++++");
                     System.out.println("Wywołano zdarzenie kliknięcia w ekwipunek dla gracza: " + p.getName());
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
                     e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu

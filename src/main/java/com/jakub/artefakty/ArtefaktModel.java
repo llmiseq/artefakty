@@ -12,6 +12,7 @@ public class ArtefaktModel {
     private int slotInEq;
     private int maxInEq;
     private List<String> bonuses;
+    private String name;
 
     public ArtefaktModel() {
         this.myPluginInstance = Artefakty.getInstance(); // Pobierz instancję twojego pluginu
@@ -55,4 +56,11 @@ public class ArtefaktModel {
         return itemStack1;
     }
 
+    public String getName() {
+        return name; // Zwraca wartość pola name
+    }
+
+    public void setName(String name) {
+        this.name = name; // Ustawia wartość pola name
+    }
 }

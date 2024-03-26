@@ -41,6 +41,7 @@ public class InventoryInit {
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
             String materialName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".ItemStack");
+            String displayName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".name"); // Dodane wczytywanie nazwy
 
             ItemStack itemStack;
             if (materialName != null) {
@@ -56,6 +57,12 @@ public class InventoryInit {
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
 
+            if (displayName != null) {
+                artefaktModel.setName(displayName); // Ustawienie nazwy modelu artefaktu
+            } else {
+                System.out.println("Błąd: Brak nazwy wyświetlanej dla artefaktu " + ID);
+            }
+
             artefaktModels.add(artefaktModel);
 
             // Dodaj logi
@@ -63,7 +70,9 @@ public class InventoryInit {
             System.out.println("ItemStack: " + itemStack);
             System.out.println("SlotInEq: " + slotInEq);
             System.out.println("MaxInEq: " + maxInEq);
+            System.out.println("Name: " + displayName); // Dodane logowanie nazwy
         }
+
 
         // Dodaj logi dla setlisty artefaktModels
         for (ArtefaktModel model : artefaktModels) {
@@ -71,6 +80,8 @@ public class InventoryInit {
             System.out.println("ItemStack: " + model.getItemStack());
             System.out.println("SlotInEq: " + model.getSlotInEq());
             System.out.println("MaxInEq: " + model.getMaxInEq());
+            System.out.println("Name: " + model.getName()); // Dodane logowanie nazwy
         }
+
     }
 }

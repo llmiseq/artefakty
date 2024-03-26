@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -75,6 +76,14 @@ public class Artefakty extends JavaPlugin implements Listener{
 
             InventoryInit.artefaktModels.add(artefaktModel);
             System.out.println("Dodano model artefaktu: " + artefaktModel);
+            String displayName = config.getString("artefakty." + key + ".name");
+            if (displayName != null) {
+                ItemMeta meta = artefaktModel.getItemStack().getItemMeta();
+                meta.setDisplayName(displayName);
+                artefaktModel.getItemStack().setItemMeta(meta);
+            } else {
+                System.out.println("Błąd: Brak nazwy wyświetlanej dla artefaktu " + key);
+            }
         }
     }
 }
