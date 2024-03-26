@@ -82,7 +82,7 @@ public class Artefakty extends JavaPlugin implements Listener{
                 artefaktModel.setLore(lore); // Dodane ustawianie lore w modelu
             }
 
-            String displayName = config.getString("artefakty." + key + ".name");
+             String displayName = config.getString("artefakty." + key + ".name");
             if (displayName != null) {
                 ItemMeta meta = artefaktModel.getItemStack().getItemMeta();
                 meta.setDisplayName(displayName);

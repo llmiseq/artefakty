@@ -1,10 +1,14 @@
 package com.jakub.artefakty;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class getArtefaktyInventory {
     private static final ItemStack FILL_BLACK;
@@ -17,6 +21,8 @@ public class getArtefaktyInventory {
         meta.setDisplayName(" ");
         FILL_BLACK.setItemMeta(meta);
     }
+
+    private String artefactKey;
 
     public Inventory getArtefaktyInventory() {
         System.out.println("Wywołano metodę getArtefaktyInventory");
@@ -36,6 +42,8 @@ public class getArtefaktyInventory {
                     System.out.println("Wywołano zdarzenie kliknięcia w ekwipunek dla gracza: " + p.getName());
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
                     e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu
+                    if (e.getClickedInventory().getType() != InventoryType.CHEST || e.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) return; // Dodano sprawdzenie, czy kliknięty przedmiot znajduje się w GUI i czy nie jest czarnym szkłem
+                    if (e.getCurrentItem().isSimilar(FILL_BLACK)) return; // Dodano sprawdzenie, czy kliknięty przedmiot to czarne szkło
 
                     ItemStack clickedItem = e.getCurrentItem();
 
@@ -46,29 +54,68 @@ public class getArtefaktyInventory {
                 .build();
     }
 
+
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
         System.out.println("Wywołano metodę handlePlayerInteraction dla gracza: " + player.getName());
-        // Odczyta maxItemsPerPlayer z pliku konfiguracyjnego dla danego artefaktu
-        String artefactKey = clickedItem.getItemMeta().getDisplayName();
-        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 0);
+
+        // Utwórz klucz dla PersistentDataContainer
+        NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
+
+        // Pobierz PersistentDataContainer z ItemStack
+        PersistentDataContainer data = clickedItem.getItemMeta().getPersistentDataContainer();
+
+        // Pobierz wartość z PersistentDataContainer
+        String artefactKey = data.get(key, PersistentDataType.STRING);
+
         String playerKey = player.getUniqueId().toString() + "." + artefactKey;
         int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
+        System.out.println("Aktualna ilość przedmiotów " + artefactKey + ": " + currentItems);
+        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 0);
+
         if (currentItems >= maxItemsPerPlayer) {
             player.sendMessage("§b§lSky§aMMO §cNie możesz dodać więcej takich przedmiotów!");
             return;
         }
 
         if (removeItem(player, clickedItem)) {
-            player.sendMessage("§b§lSky§aMMO §eDodano " + clickedItem.getItemMeta().getDisplayName());
             Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1); // Aktualizuj konfigurację
             Artefakty.getInstance().saveConfig(); // Zapisz konfigurację
+            player.sendMessage("§b§lSky§aMMO §eDodano przedmiot: " + clickedItem.getItemMeta().getDisplayName());
+
+            // Dodaj przedmiot do klucza w PersistentDataContainer
+            data.set(key, PersistentDataType.STRING, artefactKey);
         }
     }
 
-    // Tutaj zaimplementowałem metodę removeItem do usuwania
     public boolean removeItem(Player player, ItemStack item) {
         System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
-        // Implementacja metody removeItem
-        return false; // Zwróć prawdziwą wartość, jeśli przedmiot został pomyślnie usunięty
+
+        // Utwórz klucz dla PersistentDataContainer
+        NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
+
+        Inventory inventory = player.getInventory();
+        for (ItemStack invItem : inventory.getContents()) {
+            if (invItem != null && invItem.getType() == item.getType() && invItem.getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())) {
+                // Pobierz PersistentDataContainer z ItemStack
+                PersistentDataContainer data = invItem.getItemMeta().getPersistentDataContainer();
+
+                // Pobierz wartość z PersistentDataContainer
+                String invArtefactKey = data.get(key, PersistentDataType.STRING);
+
+                // Porównaj wartości
+                if (invArtefactKey != null && invArtefactKey.equals(artefactKey)) {
+                    inventory.remove(invItem);
+                    System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
+
+
+
+
+
 }
