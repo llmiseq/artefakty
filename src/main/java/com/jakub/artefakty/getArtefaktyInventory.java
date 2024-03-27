@@ -10,6 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
+
 public class getArtefaktyInventory {
     private static final ItemStack FILL_BLACK;
 
@@ -71,42 +73,30 @@ public class getArtefaktyInventory {
         String playerKey = player.getUniqueId().toString() + "." + artefactKey;
         System.out.println("Klucz gracza: " + playerKey);
 
-        int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
-        System.out.println("Aktualna ilość przedmiotów " + artefactKey + ": " + currentItems);
+        // Sprawdź, czy gracz ma w ekwipunku przynajmniej jeden przedmiot o tym samym typie i nazwie
+        boolean hasItem = Arrays.stream(player.getInventory().getContents())
+                .anyMatch(item -> item != null && item.getType() == clickedItem.getType() && item.getItemMeta().getDisplayName().equals(clickedItem.getItemMeta().getDisplayName()));
 
-        // Pobierz odpowiednią instancję ArtefaktModel
-        ArtefaktModel artefaktModel = InventoryInit.artefaktModels.stream()
-                .filter(model -> artefactKey.equals(model.getName())) // Zakładam, że getName zwraca klucz artefaktu
-                .findFirst()
-                .orElse(null); // Zwróć null, jeśli nie znaleziono pasującego modelu
-
-        if (artefaktModel == null) {
-            System.out.println("Nie znaleziono modelu artefaktu dla klucza: " + artefactKey);
+        if (!hasItem) {
+            player.sendMessage("§b§lSky§aMMO §cNie posiadasz żadnych takich przedmiotów!");
             return;
         }
 
-        int maxItemsPerPlayer = artefaktModel.getMaxInEq();
-
-        System.out.println("Odczytano MaxInEq dla " + artefactKey + ": " + maxItemsPerPlayer);
-        if (currentItems >= maxItemsPerPlayer) {
-            player.sendMessage("§b§lSky§aMMO §cNie możesz dodać więcej takich przedmiotów!");
-            return;
-        }
-
-        if (removeItem(player, clickedItem)) {
-            Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1); // Aktualizuj konfigurację
-            System.out.println("Zaktualizowano konfigurację dla " + playerKey + " na " + (currentItems + 1));
+        // Usuń przedmiot z ekwipunku gracza
+        boolean removed = removeItem(player, clickedItem);
+        if (removed) {
+            int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
+            Artefakty.getInstance().getConfig().set(playerKey, Math.max(0, currentItems - 1)); // Aktualizuj konfigurację
+            System.out.println("Zaktualizowano konfigurację dla " + playerKey + " na " + Math.max(0, currentItems - 1));
 
             Artefakty.getInstance().saveConfig(); // Zapisz konfigurację
             System.out.println("Zapisano konfigurację");
 
-            player.sendMessage("§b§lSky§aMMO §eDodano przedmiot: " + clickedItem.getItemMeta().getDisplayName());
-
-            // Dodaj przedmiot do klucza w PersistentDataContainer
-            data.set(key, PersistentDataType.STRING, artefactKey);
+            player.sendMessage("§b§lSky§aMMO §eUsunięto przedmiot: " + clickedItem.getItemMeta().getDisplayName());
+        } else {
+            player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu!");
         }
     }
-
 
 
 
@@ -141,6 +131,14 @@ public class getArtefaktyInventory {
         }
         return false;
     }
+
+
+
+
+
+
+
+
 
 
 
