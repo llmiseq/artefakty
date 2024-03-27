@@ -108,7 +108,6 @@ public class getArtefaktyInventory {
         }
     }
 
-
     public boolean removeItem(Player player, ItemStack item) {
         System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
 
@@ -127,4 +126,6 @@ public class getArtefaktyInventory {
         }
         return false;
     }
+
+
 }

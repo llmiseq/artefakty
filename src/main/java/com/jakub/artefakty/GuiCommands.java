@@ -22,7 +22,7 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
     private Artefakty plugin;
     private Rewards rewards;
 
-    private Map<String, String> itemNames = new HashMap<>();
+    public Map<String, String> itemNames = new HashMap<>();
 
     public GuiCommands(getArtefaktyInventory artefaktyInventory, Artefakty plugin, Rewards rewards) {
         this.artefaktyInventory = artefaktyInventory;
@@ -76,6 +76,7 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                         plugin.getConfig().set(playerKey, currentItems + 1);
                         player.sendMessage("§b§lSky§aMMO §cDodano " + ID + " graczu " + targetPlayer.getName());
                     }
+
                 } else if (args[1].equals("clear")) {
                     if (ID.equals("all")) {
                         for (String key : itemNames.keySet()) {

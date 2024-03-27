@@ -6,6 +6,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
+import static com.jakub.artefakty.InventoryInit.artefaktModels;
+
 
 //naprawić, ta klasa powoduje błąd, nie odczytuje maxInEq przez co zawsze wynosi 0
 public class ArtefaktModel {
@@ -16,6 +18,7 @@ public class ArtefaktModel {
     private List<String> bonuses;
     private String name;
     private List<String> lore; // Dodane pole lore
+
 
     public ArtefaktModel() {
         this.myPluginInstance = Artefakty.getInstance(); // Pobierz instancję twojego pluginu
