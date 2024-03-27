@@ -56,7 +56,6 @@ public class getArtefaktyInventory {
                 .build();
     }
 
-
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
         System.out.println("Wywołano metodę handlePlayerInteraction dla gracza: " + player.getName());
 
@@ -93,40 +92,37 @@ public class getArtefaktyInventory {
             System.out.println("Zapisano konfigurację");
 
             player.sendMessage("§b§lSky§aMMO §eUsunięto przedmiot: " + clickedItem.getItemMeta().getDisplayName());
+
+            // Dodaj przedmiot do konfiguracji
+            String configItemName = artefactKey;
+            playerKey = player.getUniqueId().toString() + "." + configItemName;
+            currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
+            if (currentItems < 1) {
+                Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1);
+                player.sendMessage("§b§lSky§aMMO §cDodano " + artefactKey + " graczu " + player.getName());
+            } else {
+                player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów " + artefactKey + ", ponieważ osiągnięto limit.");
+            }
         } else {
             player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu!");
         }
     }
 
 
-
     public boolean removeItem(Player player, ItemStack item) {
         System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
-
-        // Utwórz klucz dla PersistentDataContainer
-        NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
-
-        // Pobierz PersistentDataContainer z ItemStack
-        PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
-
-        // Pobierz wartość z PersistentDataContainer
-        String artefactKey = data.get(key, PersistentDataType.STRING);
 
         Inventory inventory = player.getInventory();
         for (ItemStack invItem : inventory.getContents()) {
             if (invItem != null && invItem.getType() == item.getType() && invItem.getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())) {
-                // Pobierz PersistentDataContainer z ItemStack
-                PersistentDataContainer invData = invItem.getItemMeta().getPersistentDataContainer();
+                invItem.setAmount(invItem.getAmount() - 1);
+                System.out.println("Zmniejszono ilość przedmiotów: " + invItem.getItemMeta().getDisplayName() + " do " + invItem.getAmount()); // Dodano log
 
-                // Pobierz wartość z PersistentDataContainer
-                String invArtefactKey = invData.get(key, PersistentDataType.STRING);
-
-                // Porównaj wartości
-                if (invArtefactKey != null && invArtefactKey.equals(artefactKey)) {
+                if (invItem.getAmount() <= 0) {
                     inventory.remove(invItem);
-                    System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName());
-                    return true;
                 }
+                System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName());
+                return true;
             }
         }
         return false;
