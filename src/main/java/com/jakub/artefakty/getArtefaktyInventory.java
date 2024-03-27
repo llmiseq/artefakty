@@ -131,19 +131,4 @@ public class getArtefaktyInventory {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
