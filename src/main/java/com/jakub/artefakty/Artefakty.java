@@ -62,17 +62,32 @@ public class Artefakty extends JavaPlugin implements Listener{
         System.out.println("Wywołano metodę loadArtefaktsFromConfig");
         FileConfiguration config = Artefakty.getInstance().getConfig();
         ConfigurationSection artefaktySection = config.getConfigurationSection("artefakty");
-        if (artefaktySection == null) return;
+        if (artefaktySection == null) {
+            System.out.println("Brak sekcji 'artefakty' w konfiguracji");
+            return;
+        }
 
         InventoryInit.artefaktModels.clear(); // Dodane czyszczenie listy
 
         for (String key : artefaktySection.getKeys(false)) {
             System.out.println("Przetwarzam klucz: " + key);
             ArtefaktModel artefaktModel = new ArtefaktModel();
-            artefaktModel.setItemStack(new ItemStack(Material.valueOf(config.getString("artefakty." + key + ".ItemStack"))));
-            artefaktModel.setSlotInEq(config.getInt("artefakty." + key + ".SlotInEq"));
-            artefaktModel.setMaxInEq(config.getInt("artefakty." + key + ".MaxInEq"));
-            artefaktModel.setBonuses(config.getStringList("artefakty." + key + ".Bonuses"));
+            String itemStackMaterial = config.getString("artefakty." + key + ".ItemStack");
+            System.out.println("Materiał ItemStack: " + itemStackMaterial); // Dodano log
+            artefaktModel.setItemStack(new ItemStack(Material.valueOf(itemStackMaterial)));
+            int slotInEq = config.getInt("artefakty." + key + ".SlotInEq");
+            System.out.println("SlotInEq: " + slotInEq); // Dodano log
+            artefaktModel.setSlotInEq(slotInEq);
+
+            int maxInEq = config.getInt("artefakty." + key + ".MaxInEq");
+            artefaktModel.setMaxInEq(maxInEq);
+
+            System.out.println("Odczytano MaxInEq dla " + key + ": " + maxInEq);
+
+
+            List<String> bonuses = config.getStringList("artefakty." + key + ".Bonuses");
+            System.out.println("Bonusy: " + bonuses); // Dodano log
+            artefaktModel.setBonuses(bonuses);
 
             List<String> lore = config.getStringList("artefakty." + key + ".lore"); // Dodane wczytywanie lore
             if (lore != null) {
@@ -82,7 +97,7 @@ public class Artefakty extends JavaPlugin implements Listener{
                 artefaktModel.setLore(lore); // Dodane ustawianie lore w modelu
             }
 
-             String displayName = config.getString("artefakty." + key + ".name");
+            String displayName = config.getString("artefakty." + key + ".name");
             if (displayName != null) {
                 ItemMeta meta = artefaktModel.getItemStack().getItemMeta();
                 meta.setDisplayName(displayName);
@@ -93,6 +108,9 @@ public class Artefakty extends JavaPlugin implements Listener{
 
             InventoryInit.artefaktModels.add(artefaktModel);
             System.out.println("Dodano model artefaktu: " + artefaktModel);
+            System.out.println("ładuje max " + maxInEq);
         }
     }
+
+
 }

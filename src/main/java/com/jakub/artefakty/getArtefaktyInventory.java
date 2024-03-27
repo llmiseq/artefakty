@@ -66,12 +66,28 @@ public class getArtefaktyInventory {
 
         // Pobierz wartość z PersistentDataContainer
         String artefactKey = data.get(key, PersistentDataType.STRING);
+        System.out.println("Klucz artefaktu: " + artefactKey);
 
         String playerKey = player.getUniqueId().toString() + "." + artefactKey;
+        System.out.println("Klucz gracza: " + playerKey);
+
         int currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
         System.out.println("Aktualna ilość przedmiotów " + artefactKey + ": " + currentItems);
-        int maxItemsPerPlayer = Artefakty.getInstance().getConfig().getInt("artefakty." + artefactKey + ".MaxInEq", 0);
 
+        // Pobierz odpowiednią instancję ArtefaktModel
+        ArtefaktModel artefaktModel = InventoryInit.artefaktModels.stream()
+                .filter(model -> artefactKey.equals(model.getName())) // Zakładam, że getName zwraca klucz artefaktu
+                .findFirst()
+                .orElse(null); // Zwróć null, jeśli nie znaleziono pasującego modelu
+
+        if (artefaktModel == null) {
+            System.out.println("Nie znaleziono modelu artefaktu dla klucza: " + artefactKey);
+            return;
+        }
+
+        int maxItemsPerPlayer = artefaktModel.getMaxInEq();
+
+        System.out.println("Odczytano MaxInEq dla " + artefactKey + ": " + maxItemsPerPlayer);
         if (currentItems >= maxItemsPerPlayer) {
             player.sendMessage("§b§lSky§aMMO §cNie możesz dodać więcej takich przedmiotów!");
             return;
@@ -79,7 +95,11 @@ public class getArtefaktyInventory {
 
         if (removeItem(player, clickedItem)) {
             Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1); // Aktualizuj konfigurację
+            System.out.println("Zaktualizowano konfigurację dla " + playerKey + " na " + (currentItems + 1));
+
             Artefakty.getInstance().saveConfig(); // Zapisz konfigurację
+            System.out.println("Zapisano konfigurację");
+
             player.sendMessage("§b§lSky§aMMO §eDodano przedmiot: " + clickedItem.getItemMeta().getDisplayName());
 
             // Dodaj przedmiot do klucza w PersistentDataContainer
@@ -87,20 +107,29 @@ public class getArtefaktyInventory {
         }
     }
 
+
+
+
     public boolean removeItem(Player player, ItemStack item) {
         System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
 
         // Utwórz klucz dla PersistentDataContainer
         NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
 
+        // Pobierz PersistentDataContainer z ItemStack
+        PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
+
+        // Pobierz wartość z PersistentDataContainer
+        String artefactKey = data.get(key, PersistentDataType.STRING);
+
         Inventory inventory = player.getInventory();
         for (ItemStack invItem : inventory.getContents()) {
             if (invItem != null && invItem.getType() == item.getType() && invItem.getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())) {
                 // Pobierz PersistentDataContainer z ItemStack
-                PersistentDataContainer data = invItem.getItemMeta().getPersistentDataContainer();
+                PersistentDataContainer invData = invItem.getItemMeta().getPersistentDataContainer();
 
                 // Pobierz wartość z PersistentDataContainer
-                String invArtefactKey = data.get(key, PersistentDataType.STRING);
+                String invArtefactKey = invData.get(key, PersistentDataType.STRING);
 
                 // Porównaj wartości
                 if (invArtefactKey != null && invArtefactKey.equals(artefactKey)) {
@@ -112,6 +141,7 @@ public class getArtefaktyInventory {
         }
         return false;
     }
+
 
 
 

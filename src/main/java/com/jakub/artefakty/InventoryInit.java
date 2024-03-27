@@ -1,8 +1,10 @@
 package com.jakub.artefakty;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,13 +19,12 @@ public class InventoryInit {
             System.out.println(ste);
         }
 
-        artefaktModels.clear(); // Dodaj tę linię
+        artefaktModels.clear();
 
         for (String ID : getArtefaktyInventory.yamlData.getConfig().getConfigurationSection("artefakty").getKeys(false)) {
             System.out.println("Aktualne ID: " + ID);
             System.out.println("Odczytano klucz: " + ID);
 
-            // Dodaj te linie, aby wydrukować ścieżkę i nazwę pliku
             File configFile = getArtefaktyInventory.yamlData.getConfigFile();
             System.out.println("Ścieżka do pliku: " + configFile.getAbsolutePath());
             System.out.println("Nazwa pliku: " + configFile.getName());
@@ -31,14 +32,14 @@ public class InventoryInit {
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
             String materialName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".ItemStack");
-            String displayName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".name"); // Dodane wczytywanie nazwy
+            System.out.println("Nazwa materiału: " + materialName);
 
-            // Dodane logowanie klucza "lore"
+            String displayName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".name");
+            System.out.println("Nazwa wyświetlana: " + displayName);
+
             System.out.println("Klucz lore: " + "artefakty." + ID + ".Lore");
 
-            List<String> lore = getArtefaktyInventory.yamlData.getConfig().getStringList("artefakty." + ID + ".Lore"); // Dodane wczytywanie lore
-
-            // Dodane logowanie wartości "lore"
+            List<String> lore = getArtefaktyInventory.yamlData.getConfig().getStringList("artefakty." + ID + ".Lore");
             System.out.println("Wartość lore: " + lore);
 
             ItemStack itemStack;
@@ -52,34 +53,50 @@ public class InventoryInit {
 
             int slotInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty." + ID + ".SlotInEq");
             int maxInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty." + ID + ".MaxInEq");
+            System.out.println("SlotInEq: " + slotInEq);
+            System.out.println("MaxInEq: " + maxInEq);
+
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
 
+            System.out.println("Załadowano MaxInEq dla " + ID + ": " + maxInEq);
+
             if (displayName != null) {
-                artefaktModel.setName(displayName); // Ustawienie nazwy modelu artefaktu
+                artefaktModel.setName(displayName);
             } else {
                 System.out.println("Błąd: Brak nazwy wyświetlanej dla artefaktu " + ID);
             }
 
-            ItemMeta meta = itemStack.getItemMeta(); // Pobierz ItemMeta z ItemStack
+            ItemMeta meta = itemStack.getItemMeta();
             if (displayName != null) {
-                meta.setDisplayName(displayName); // Ustaw nazwę wyświetlaną
+                meta.setDisplayName(displayName);
             }
             if (lore != null && !lore.isEmpty()) {
-                meta.setLore(lore); // Ustaw lore
+                meta.setLore(lore);
             }
-            itemStack.setItemMeta(meta); // Zastosuj zmiany do ItemStack
 
+            // Dodaj klucz do PersistentDataContainer
+            NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
+            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, displayName); // Zmieniono ID na displayName
+
+            itemStack.setItemMeta(meta);
+
+            artefaktModel.setItemStack(itemStack);
             artefaktModels.add(artefaktModel);
 
-            // Dodaj logi
+            System.out.println("Załadowano model artefaktu: " + artefaktModel.getName());
+
             System.out.println("Loaded artefakt: " + ID);
             System.out.println("ItemStack: " + itemStack);
-            System.out.println("SlotInEq: " + slotInEq);
-            System.out.println("MaxInEq: " + maxInEq);
-            System.out.println("Name: " + displayName); // Dodane logowanie nazwy
-            System.out.println("Lore: " + lore); // Dodane logowanie lore
+            System.out.println("Name: " + displayName);
+            System.out.println("Il: "+ maxInEq);
+            System.out.println("Lore: " + lore);
+            System.out.println();
         }
     }
+
+
+
+
 
 }

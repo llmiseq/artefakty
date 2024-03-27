@@ -6,6 +6,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
+
+//naprawić, ta klasa powoduje błąd, nie odczytuje maxInEq przez co zawsze wynosi 0
 public class ArtefaktModel {
     private Artefakty myPluginInstance;
     private ItemStack itemStack;
@@ -35,12 +37,16 @@ public class ArtefaktModel {
     }
 
     public int getMaxInEq() {
+        System.out.println("Odczytano MaxInEq: " + maxInEq); // Dodano log
         return maxInEq;
     }
 
     public void setMaxInEq(int maxInEq) {
+        System.out.println("Próba ustawienia MaxInEq na: " + maxInEq); // Dodano log
         this.maxInEq = maxInEq;
+        System.out.println("Ustawiono MaxInEq na: " + this.maxInEq); // Dodano log
     }
+
 
     public List<String> getBonuses() {
         return bonuses;
