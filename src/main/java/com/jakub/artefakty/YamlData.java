@@ -1,16 +1,16 @@
 package com.jakub.artefakty;
-import com.google.common.base.Charsets;
-import com.sun.security.auth.login.ConfigFile;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class YamlData {
+
+    /*
+    Klasa YamlData.java jest odpowiedzialna za pobieranie danych z configu Artefakty.yml
+    */
 
     private YamlConfiguration config;
     private final File configFile;

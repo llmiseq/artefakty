@@ -15,6 +15,10 @@ import java.util.Arrays;
 import static com.jakub.artefakty.InventoryInit.artefaktModels;
 
 public class getArtefaktyInventory {
+
+    /*
+        Ta klasa odpowiada za całą logikę interakcji z GUI
+    */
     private static final ItemStack FILL_BLACK;
 
     public static YamlData yamlData = new YamlData("Artefakty.yml");
@@ -32,7 +36,7 @@ public class getArtefaktyInventory {
         System.out.println("Wywołano metodę getArtefaktyInventory");
         return Artefakty.inventoryManager.builder().setTitle("§6Twoje Trofea").setRows(3).fill(FILL_BLACK)
                 .addEventInventoryOpen((p, e) -> {
-                    System.out.println("Wywołano zdarzenie otwarcia ekwipunku dla gracza: " + p.getName());
+                    //System.out.println("Wywołano zdarzenie otwarcia ekwipunku dla gracza: " + p.getName());
                     artefaktModels.forEach(artefaktModel -> {
                         System.out.println("Przetwarzam model artefaktu: " + artefaktModel);
                         ItemStack item = artefaktModel.getItemStack().clone(); // Klonuj ItemStack, aby uniknąć zmiany oryginalnego modelu
@@ -43,7 +47,7 @@ public class getArtefaktyInventory {
                     });
                 })
                 .addEventInventoryClick((p, e) -> {
-                    System.out.println("Wywołano zdarzenie kliknięcia w ekwipunek dla gracza: " + p.getName());
+                    //System.out.println("Wywołano zdarzenie kliknięcia w ekwipunek dla gracza: " + p.getName());
                     if (e.getClickedInventory() == null || e.getCurrentItem() == null) return;
                     e.setCancelled(true); // Anuluj zdarzenie, aby zapobiec wyciągnięciu przedmiotu
                     if (e.getClickedInventory().getType() != InventoryType.CHEST || e.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) return; // Dodano sprawdzenie, czy kliknięty przedmiot znajduje się w GUI i czy nie jest czarnym szkłem
@@ -52,14 +56,14 @@ public class getArtefaktyInventory {
                     ItemStack clickedItem = e.getCurrentItem();
 
                     // Wywołaj metodę handlePlayerInteraction
-                    System.out.println("Kliknięto przedmiot: " + clickedItem);
+                    //System.out.println("Kliknięto przedmiot: " + clickedItem);
                     handlePlayerInteraction(p, clickedItem);
                 })
                 .build();
     }
 
     public void handlePlayerInteraction(Player player, ItemStack clickedItem) {
-        System.out.println("Wywołano metodę handlePlayerInteraction dla gracza: " + player.getName());
+        //System.out.println("Wywołano metodę handlePlayerInteraction dla gracza: " + player.getName());
 
         // Utwórz klucz dla PersistentDataContainer
         NamespacedKey key = new NamespacedKey(Artefakty.getInstance(), "artefactKey");
@@ -69,10 +73,10 @@ public class getArtefaktyInventory {
 
         // Pobierz wartość z PersistentDataContainer
         String artefactKey = data.get(key, PersistentDataType.STRING);
-        System.out.println("Klucz artefaktu: " + artefactKey);
+        //System.out.println("Klucz artefaktu: " + artefactKey);
 
         String playerKey = player.getUniqueId().toString() + "." + artefactKey;
-        System.out.println("Klucz gracza: " + playerKey);
+        //System.out.println("Klucz gracza: " + playerKey);
 
         // Pobierz maxInEq dla danego artefaktu
         int maxInEq = artefaktModels.stream()
@@ -92,19 +96,18 @@ public class getArtefaktyInventory {
             player.sendMessage("§b§lSky§aMMO §cNie posiadasz żadnych takich przedmiotów!");
             return;
         }
-        System.out.println("============================="+maxInEq);
         // Usuń przedmiot z ekwipunku gracza
         if (currentItems < maxInEq) {
             // Usuń przedmiot z ekwipunku gracza
             boolean removed = removeItem(player, clickedItem);
             if (removed) {
                 Artefakty.getInstance().getConfig().set(playerKey, Math.max(0, currentItems - 1)); // Aktualizuj konfigurację
-                System.out.println("Zaktualizowano konfigurację dla " + playerKey + " na " + Math.max(0, currentItems - 1));
+                //System.out.println("Zaktualizowano konfigurację dla " + playerKey + " na " + Math.max(0, currentItems - 1));
 
                 Artefakty.getInstance().saveConfig(); // Zapisz konfigurację
-                System.out.println("Zapisano konfigurację");
+                //System.out.println("Zapisano konfigurację");
 
-                player.sendMessage("§b§lSky§aMMO §eUsunięto przedmiot: " + clickedItem.getItemMeta().getDisplayName());
+                player.sendMessage("§b§lSky§aMMO §eUsunięto przedmiot: " + clickedItem.getItemMeta().getDisplayName() + "§e z Twojego ekwipunku!");
 
                 // Ponownie pobierz currentItems z konfiguracji
                 currentItems = Artefakty.getInstance().getConfig().getInt(playerKey, 0);
@@ -113,39 +116,31 @@ public class getArtefaktyInventory {
                 if (currentItems < maxInEq) {
                     Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1);
                     Artefakty.getInstance().saveConfig(); // Zapisz konfigurację po aktualizacji
-                    player.sendMessage("§b§lSky§aMMO §cDodano " + artefactKey + " graczu " + player.getName());
+                    player.sendMessage("§b§lSky§aMMO §cDodano " + artefactKey + " §e graczu §d" + player.getName());
                 } else {
-                    player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów " + artefactKey + ", ponieważ osiągnięto limit.");
+                    player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + artefactKey + "§c, ponieważ osiągnięto limit.");
                 }
             } else {
                 player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu!");
             }
         } else {
-            player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów " + artefactKey + ", ponieważ osiągnięto limit.");
+            player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + artefactKey + "§c, ponieważ osiągnięto limit.");
         }
 
 
     }
-
-
-
-
-
-
     public boolean removeItem(Player player, ItemStack item) {
-        System.out.println("Wywołano metodę removeItem dla gracza: " + player.getName());
-
+        System.out.println("Wywołano metodę removeItem dla gracza: §e" + player.getName());
         Inventory inventory = player.getInventory();
         for (ItemStack invItem : inventory.getContents()) {
             if (invItem != null && invItem.getType() == item.getType() && invItem.getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())) {
                 invItem.setAmount(invItem.getAmount() - 1);
-                System.out.println("Zmniejszono ilość przedmiotów: " + invItem.getItemMeta().getDisplayName() + " do " + invItem.getAmount()); // Dodano log
+                //System.out.println("Zmniejszono ilość przedmiotów: " + invItem.getItemMeta().getDisplayName() + " do " + invItem.getAmount()); // Dodano log
 
                 if (invItem.getAmount() <= 0) {
                     inventory.remove(invItem);
                 }
-                System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName());
-                return true;
+                System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName() + "graczu: " + player.getName());                return true;
             }
         }
         return false;

@@ -16,6 +16,10 @@ import java.util.List;
 
 public class Artefakty extends JavaPlugin implements Listener{
 
+    /*
+        To jest klasa główna, istotna jest metoda loadArtefaktsFormConfig
+    */
+
     static CInventoryManager inventoryManager;
     private getArtefaktyInventory artefaktyInventory;
     private Rewards rewards;
@@ -70,23 +74,23 @@ public class Artefakty extends JavaPlugin implements Listener{
         InventoryInit.artefaktModels.clear(); // Dodane czyszczenie listy
 
         for (String key : artefaktySection.getKeys(false)) {
-            System.out.println("Przetwarzam klucz: " + key);
+            //System.out.println("Przetwarzam klucz: " + key);
             ArtefaktModel artefaktModel = new ArtefaktModel();
             String itemStackMaterial = config.getString("artefakty." + key + ".ItemStack");
-            System.out.println("Materiał ItemStack: " + itemStackMaterial); // Dodano log
+            //System.out.println("Materiał ItemStack: " + itemStackMaterial); // Dodano log
             artefaktModel.setItemStack(new ItemStack(Material.valueOf(itemStackMaterial)));
             int slotInEq = config.getInt("artefakty." + key + ".SlotInEq");
-            System.out.println("SlotInEq: " + slotInEq); // Dodano log
+            //System.out.println("SlotInEq: " + slotInEq); // Dodano log
             artefaktModel.setSlotInEq(slotInEq);
 
             int maxInEq = config.getInt("artefakty." + key + ".MaxInEq");
             artefaktModel.setMaxInEq(maxInEq);
 
-            System.out.println("Odczytano MaxInEq dla " + key + ": " + maxInEq);
+            //System.out.println("Odczytano MaxInEq dla " + key + ": " + maxInEq);
 
 
             List<String> bonuses = config.getStringList("artefakty." + key + ".Bonuses");
-            System.out.println("Bonusy: " + bonuses); // Dodano log
+            //System.out.println("Bonusy: " + bonuses); // Dodano log
             artefaktModel.setBonuses(bonuses);
 
             List<String> lore = config.getStringList("artefakty." + key + ".lore"); // Dodane wczytywanie lore
@@ -107,10 +111,8 @@ public class Artefakty extends JavaPlugin implements Listener{
             }
 
             InventoryInit.artefaktModels.add(artefaktModel);
-            System.out.println("Dodano model artefaktu: " + artefaktModel);
-            System.out.println("ładuje max " + maxInEq);
+            //System.out.println("Dodano model artefaktu: " + artefaktModel);
+            //System.out.println("ładuje max " + maxInEq);
         }
     }
-
-
 }

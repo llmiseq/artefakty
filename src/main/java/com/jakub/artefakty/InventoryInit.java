@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryInit {
+
+
+    /*
+        Ta klasa jest odpowiedzialna za ładowanie GUI gracza na bazie configu Artefakty.java
+        <--UWAGA!--> na w linijkach 93-98 zawiera ona dodatkowe logi odnośnie do poprawnego załadowania
+        GUI
+    */
     public static List<ArtefaktModel> artefaktModels = new ArrayList<>();
 
     public static void loadArtefaktModels() {
@@ -26,21 +33,19 @@ public class InventoryInit {
             System.out.println("Odczytano klucz: " + ID);
 
             File configFile = getArtefaktyInventory.yamlData.getConfigFile();
-            System.out.println("Ścieżka do pliku: " + configFile.getAbsolutePath());
-            System.out.println("Nazwa pliku: " + configFile.getName());
 
             ArtefaktModel artefaktModel = new ArtefaktModel();
 
             String materialName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".ItemStack");
-            System.out.println("Nazwa materiału: " + materialName);
+            //System.out.println("Nazwa materiału: " + materialName);
 
             String displayName = getArtefaktyInventory.yamlData.getConfig().getString("artefakty." + ID + ".name");
-            System.out.println("Nazwa wyświetlana: " + displayName);
+            //System.out.println("Nazwa wyświetlana: " + displayName);
 
-            System.out.println("Klucz lore: " + "artefakty." + ID + ".Lore");
+            //System.out.println("Klucz lore: " + "artefakty." + ID + ".Lore");
 
             List<String> lore = getArtefaktyInventory.yamlData.getConfig().getStringList("artefakty." + ID + ".Lore");
-            System.out.println("Wartość lore: " + lore);
+            //System.out.println("Wartość lore: " + lore);
 
             ItemStack itemStack;
             if (materialName != null) {
@@ -59,7 +64,7 @@ public class InventoryInit {
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
 
-            System.out.println("Załadowano MaxInEq dla " + ID + ": " + maxInEq);
+            //System.out.println("Załadowano MaxInEq dla " + ID + ": " + maxInEq);
 
             if (displayName != null) {
                 artefaktModel.setName(displayName);
@@ -85,13 +90,10 @@ public class InventoryInit {
             artefaktModels.add(artefaktModel);
 
             System.out.println("Załadowano model artefaktu: " + artefaktModel.getName());
-
             System.out.println("Loaded artefakt: " + ID);
             System.out.println("ItemStack: " + itemStack);
             System.out.println("Name: " + displayName);
-            System.out.println("Il: "+ maxInEq);
             System.out.println("Lore: " + lore);
-            System.out.println();
         }
     }
 

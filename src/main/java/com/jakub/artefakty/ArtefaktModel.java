@@ -7,10 +7,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 import static com.jakub.artefakty.InventoryInit.artefaktModels;
-
-
-//naprawić, ta klasa powoduje błąd, nie odczytuje maxInEq przez co zawsze wynosi 0
 public class ArtefaktModel {
+
+    /*
+    To klasa zbiorcza, której celem jest tworzenie i obsługa referencji i przeciążenia metod.
+    Bardzo ważne jest, aby nie usuwać niektórych metod podpisanych jako nie używane, ponieważ
+    dla zaoszczędzenia zasobów uruchamiane są one wtedy i tylko wtedy kiedy zajdzie tak potrzeba
+*/
     private Artefakty myPluginInstance;
     private ItemStack itemStack;
     private int slotInEq;
@@ -45,9 +48,9 @@ public class ArtefaktModel {
     }
 
     public void setMaxInEq(int maxInEq) {
-        System.out.println("Próba ustawienia MaxInEq na: " + maxInEq); // Dodano log
+        //System.out.println("Próba ustawienia MaxInEq na: " + maxInEq); // Dodano log
         this.maxInEq = maxInEq;
-        System.out.println("Ustawiono MaxInEq na: " + this.maxInEq); // Dodano log
+        //System.out.println("Ustawiono MaxInEq na: " + this.maxInEq); // Dodano log
     }
 
 
@@ -60,7 +63,7 @@ public class ArtefaktModel {
     }
 
     public ItemStack getPlayerItem(Player player) {
-        System.out.println("Wywołano metodę getPlayerItem dla gracza: " + player.getName());
+        //System.out.println("Wywołano metodę getPlayerItem dla gracza: " + player.getName());
         ItemStack itemStack1 = this.itemStack.clone();
         return itemStack1;
     }

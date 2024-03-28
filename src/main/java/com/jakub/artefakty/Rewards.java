@@ -1,6 +1,5 @@
 package com.jakub.artefakty;
 
-import com.jakub.artefakty.Artefakty;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,8 +13,14 @@ import java.util.Map;
 
 
 public class Rewards {
+
+    /*
+        Klasa Rewards.java jest klasą, której najprawdopodobniej nie będziesz używać, tworzy ona dodatkowy config - config.yml,
+        który ma jedno zadanie — przechowywuje UUID gracza wraz z posiadanymi przedmiotami. Stanowi ona swojego rodzaju wykaz
+        aczkolwiek nie stanowi problemu jej usunięcie. W/w klasa stanowi tylko pokazowy przykład na to, że plugin działa
+    */
     private Artefakty plugin;
-   // private FileConfiguration config;
+    // private FileConfiguration config;
     private Map<String, PotionEffectType> itemEffects = new HashMap<>();
 
     public Rewards(Artefakty plugin) {
