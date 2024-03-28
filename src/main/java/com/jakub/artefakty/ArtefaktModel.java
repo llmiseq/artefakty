@@ -43,7 +43,7 @@ public class ArtefaktModel {
     }
 
     public int getMaxInEq() {
-        System.out.println("Odczytano MaxInEq: " + maxInEq); // Dodano log
+        //System.out.println("Odczytano MaxInEq: " + maxInEq); // Dodano log
         return maxInEq;
     }
 

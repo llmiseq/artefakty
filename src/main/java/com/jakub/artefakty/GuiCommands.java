@@ -64,7 +64,7 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                             int currentItems = plugin.getConfig().getInt(playerKey, 0);
                             if (currentItems < 1) {
                                 plugin.getConfig().set(playerKey, currentItems + 1);
-                                player.sendMessage("§b§lSky§aMMO §cDodano §e" + key + "§cdla  gracza §d" + targetPlayer.getName());
+                                player.sendMessage("§b§lSky§aMMO §cDodano §e" + key + " §cdla gracza §d" + targetPlayer.getName());
                                 System.out.println("Administrator " + player.getName() + " dodał przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                             } else {
                                 player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + key + "§c, ponieważ osiągnięto limit.");

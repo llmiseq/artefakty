@@ -59,11 +59,11 @@ public class Artefakty extends JavaPlugin implements Listener{
             }
         }, 0L, 1200L); // 1200 ticków to około 1 minuta
 
-        System.out.println("Metoda onEnable została wywołana!"); // Dodane logowanie
+        //System.out.println("Metoda onEnable została wywołana!"); // Dodane logowanie
     }
 
     public void loadArtefaktsFromConfig() {
-        System.out.println("Wywołano metodę loadArtefaktsFromConfig");
+        //System.out.println("Wywołano metodę loadArtefaktsFromConfig");
         FileConfiguration config = Artefakty.getInstance().getConfig();
         ConfigurationSection artefaktySection = config.getConfigurationSection("artefakty");
         if (artefaktySection == null) {

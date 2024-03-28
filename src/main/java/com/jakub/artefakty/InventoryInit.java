@@ -21,7 +21,7 @@ public class InventoryInit {
     public static List<ArtefaktModel> artefaktModels = new ArrayList<>();
 
     public static void loadArtefaktModels() {
-        System.out.println("loadArtefaktModels() called from:");
+        //System.out.println("loadArtefaktModels() called from:");
         for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
             System.out.println(ste);
         }
@@ -29,8 +29,8 @@ public class InventoryInit {
         artefaktModels.clear();
 
         for (String ID : getArtefaktyInventory.yamlData.getConfig().getConfigurationSection("artefakty").getKeys(false)) {
-            System.out.println("Aktualne ID: " + ID);
-            System.out.println("Odczytano klucz: " + ID);
+            //System.out.println("Aktualne ID: " + ID);
+            //System.out.println("Odczytano klucz: " + ID);
 
             File configFile = getArtefaktyInventory.yamlData.getConfigFile();
 
@@ -58,8 +58,8 @@ public class InventoryInit {
 
             int slotInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty." + ID + ".SlotInEq");
             int maxInEq = getArtefaktyInventory.yamlData.getConfig().getInt("artefakty." + ID + ".MaxInEq");
-            System.out.println("SlotInEq: " + slotInEq);
-            System.out.println("MaxInEq: " + maxInEq);
+            //System.out.println("SlotInEq: " + slotInEq);
+            //System.out.println("MaxInEq: " + maxInEq);
 
             artefaktModel.setSlotInEq(slotInEq);
             artefaktModel.setMaxInEq(maxInEq);
@@ -89,11 +89,11 @@ public class InventoryInit {
             artefaktModel.setItemStack(itemStack);
             artefaktModels.add(artefaktModel);
 
-            System.out.println("Załadowano model artefaktu: " + artefaktModel.getName());
-            System.out.println("Loaded artefakt: " + ID);
-            System.out.println("ItemStack: " + itemStack);
-            System.out.println("Name: " + displayName);
-            System.out.println("Lore: " + lore);
+            //System.out.println("Załadowano model artefaktu: " + artefaktModel.getName());
+            //System.out.println("Loaded artefakt: " + ID);
+            //System.out.println("ItemStack: " + itemStack);
+            //System.out.println("Name: " + displayName);
+            //System.out.println("Lore: " + lore);
         }
     }
 

@@ -126,11 +126,9 @@ public class getArtefaktyInventory {
         } else {
             player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + artefactKey + "§c, ponieważ osiągnięto limit.");
         }
-
-
     }
     public boolean removeItem(Player player, ItemStack item) {
-        System.out.println("Wywołano metodę removeItem dla gracza: §e" + player.getName());
+        //System.out.println("Wywołano metodę removeItem dla gracza: §e" + player.getName());
         Inventory inventory = player.getInventory();
         for (ItemStack invItem : inventory.getContents()) {
             if (invItem != null && invItem.getType() == item.getType() && invItem.getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())) {
@@ -140,7 +138,8 @@ public class getArtefaktyInventory {
                 if (invItem.getAmount() <= 0) {
                     inventory.remove(invItem);
                 }
-                System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName() + "graczu: " + player.getName());                return true;
+                System.out.println("Usunięto przedmiot: " + invItem.getItemMeta().getDisplayName() + "graczu: " + player.getName());
+                return true;
             }
         }
         return false;
