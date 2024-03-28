@@ -18,6 +18,14 @@ import java.util.stream.Collectors;
 
 public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
 
+    /*
+        Tutaj mamy usuwanie przedmiotów komendą
+
+        Na wstępie muszę się tu wytłumaczyć, ponieważ wprowadziłem pewną może się wydawać nielogiczną zmianę w celach optymalizacyjnych
+        mianowicie usuwanie wszystkiego 'all' wysypuje jako osobny "przedmiot". Zrobiłem to by było lepiej widać czy usuwamy/dodajemy wszystko
+        czy robimy to pojedyńczo
+    */
+
     private getArtefaktyInventory artefaktyInventory;
     private Artefakty plugin;
     private Rewards rewards;
@@ -56,25 +64,27 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                             int currentItems = plugin.getConfig().getInt(playerKey, 0);
                             if (currentItems < 1) {
                                 plugin.getConfig().set(playerKey, currentItems + 1);
-                                player.sendMessage("§b§lSky§aMMO §cDodano " + key + " graczu " + targetPlayer.getName());
+                                player.sendMessage("§b§lSky§aMMO §cDodano §e" + key + "§cdla  gracza §d" + targetPlayer.getName());
+                                System.out.println("Administrator " + player.getName() + " dodał przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                             } else {
-                                player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów " + key + ", ponieważ osiągnięto limit.");
+                                player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + key + "§c, ponieważ osiągnięto limit.");
                             }
                         }
                     } else {
                         String configItemName = itemNames.get(ID);
                         if (configItemName == null) {
-                            player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + ID);
+                            player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: §e" + ID);
                             return true;
                         }
                         String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
                         int currentItems = plugin.getConfig().getInt(playerKey, 0);
                         if (currentItems >= 1) {
-                            player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów " + ID + ", ponieważ osiągnięto limit.");
+                            player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + ID + "§c, ponieważ osiągnięto limit.");
                             return true;
                         }
                         plugin.getConfig().set(playerKey, currentItems + 1);
-                        player.sendMessage("§b§lSky§aMMO §cDodano " + ID + " graczu " + targetPlayer.getName());
+                        player.sendMessage("§b§lSky§aMMO §cDodano §e" + ID + "§c graczu §d" + targetPlayer.getName());
+                        System.out.println("Administrator " + player.getName() + " dodał przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                     }
 
                 } else if (args[1].equals("clear")) {
@@ -84,7 +94,8 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                             String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
                             if (plugin.getConfig().contains(playerKey)) {
                                 plugin.getConfig().set(playerKey, 0);
-                                player.sendMessage("§b§lSky§aMMO §cUsunięto " + key + " graczu " + targetPlayer.getName());
+                                player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + key + "§c użytkownikowi §d" + targetPlayer.getName());
+                                System.out.println("Administrator " + player.getName() + " usunął przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                             }
                         }
                     } else {
@@ -95,11 +106,12 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                         }
                         String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
                         if (!plugin.getConfig().contains(playerKey)) {
-                            player.sendMessage("§b§lSky§aMMO §cNie udało się usunąć przedmiotu " + ID + ", ponieważ nie istnieje w konfiguracji.");
+                            player.sendMessage("§b§lSky§aMMO §cGracz nie posiada przedmiotu: " + ID);
                             return true;
                         }
                         plugin.getConfig().set(playerKey, 0);
-                        player.sendMessage("§b§lSky§aMMO §cUsunięto " + ID + " graczu " + targetPlayer.getName());
+                        player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + ID + "§c użytkownikowi §d" + targetPlayer.getName());
+                        System.out.println("Administrator " + player.getName() + " usunął przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                     }
                 }
                 plugin.saveConfig();
