@@ -116,7 +116,7 @@ public class getArtefaktyInventory {
                 if (currentItems < maxInEq) {
                     Artefakty.getInstance().getConfig().set(playerKey, currentItems + 1);
                     Artefakty.getInstance().saveConfig(); // Zapisz konfigurację po aktualizacji
-                    player.sendMessage("§b§lSky§aMMO §cDodano " + artefactKey + " §e graczu §d" + player.getName());
+                    player.sendMessage("§b§lSky§aMMO §cDodano " + artefactKey + " §c graczu §d" + player.getName());
                 } else {
                     player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + artefactKey + "§c, ponieważ osiągnięto limit.");
                 }
