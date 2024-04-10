@@ -49,7 +49,7 @@ public class Rewards {
             int itemCount = config.getInt(player.getUniqueId().toString() + "." + itemName, 0);
             if (itemCount > 0) {
                 // Gracz posiada przedmiot, więc dodaj nagrodę
-                player.addPotionEffect(new PotionEffect(effect, 600, 1));
+                player.addPotionEffect(new PotionEffect(effect, 600, 0));
                 //player.sendMessage("Dodano efekt " + effect.getName()); // Informuj gracza
             } else {
                 // Gracz nie posiada przedmiotu, więc usuń go z konfiguracji

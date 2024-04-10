@@ -18,6 +18,8 @@ public class InventoryInit {
         <--UWAGA!--> na w linijkach 93-98 zawiera ona dodatkowe logi odnośnie do poprawnego załadowania
         GUI
     */
+
+
     public static List<ArtefaktModel> artefaktModels = new ArrayList<>();
 
     public static void loadArtefaktModels() {

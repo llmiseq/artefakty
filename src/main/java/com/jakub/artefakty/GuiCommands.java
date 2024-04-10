@@ -15,14 +15,6 @@ import java.util.stream.Collectors;
 
 public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
 
-    /*
-        Tutaj mamy usuwanie przedmiotów komendą
-
-        Na wstępie muszę się tu wytłumaczyć, ponieważ wprowadziłem pewną może się wydawać nielogiczną zmianę w celach optymalizacyjnych
-        mianowicie usuwanie wszystkiego 'all' wysypuje jako osobny "przedmiot". Zrobiłem to by było lepiej widać czy usuwamy/dodajemy wszystko
-        czy robimy to pojedyńczo
-    */
-
     private getArtefaktyInventory artefaktyInventory;
     private Artefakty plugin;
     private Rewards rewards;
@@ -53,72 +45,72 @@ public class GuiCommands implements CommandExecutor, Listener, TabCompleter {
                     player.sendMessage("§b§lSky§aMMO §cNie znaleziono gracza " + args[3]);
                     return true;
                 }
-                if (args[1].equals("add")) {
-                    if (ID.equals("all")) {
-                        for (String key : itemNames.keySet()) {
-                            String configItemName = itemNames.get(key);
-                            String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                            int currentItems = plugin.getConfig().getInt(playerKey, 0);
-                            if (currentItems < 1) {
+                switch (args[1]) {
+                    case "add":
+                        switch (ID) {
+                            case "all":
+                                for (String key : itemNames.keySet()) {
+                                    String configItemName = itemNames.get(key);
+                                    String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
+                                    int currentItems = plugin.getConfig().getInt(playerKey, 0);
+                                    plugin.getConfig().set(playerKey, currentItems + 1);
+                                    player.sendMessage("§b§lSky§aMMO §cDodano §e" + key + " §cdla gracza §d" + targetPlayer.getName());
+                                    System.out.println("Administrator " + player.getName() + " dodał przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
+                                }
+                                break;
+                            default:
+                                String configItemName = itemNames.get(ID);
+                                if (configItemName == null) {
+                                    player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + ID);
+                                    return true;
+                                }
+                                String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
+                                int currentItems = plugin.getConfig().getInt(playerKey, 0);
                                 plugin.getConfig().set(playerKey, currentItems + 1);
-                                player.sendMessage("§b§lSky§aMMO §cDodano §e" + key + " §cdla gracza §d" + targetPlayer.getName());
-                                System.out.println("Administrator " + player.getName() + " dodał przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
-                            } else {
-                                player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + key + "§c, ponieważ osiągnięto limit.");
+                                player.sendMessage("§b§lSky§aMMO §cDodano §e" + ID + " §cdla gracza §d" + targetPlayer.getName());
+                                System.out.println("Administrator " + player.getName() + " dodał przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
+                                break;
+                        }
+                        break;
+                    case "clear":
+                        if (ID.equals("all")) {
+                            for (String key : itemNames.keySet()) {
+                                String configItemName = itemNames.get(key);
+                                String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
+                                if (plugin.getConfig().contains(playerKey)) {
+                                    plugin.getConfig().set(playerKey, 0);
+                                    player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + key + "§c użytkownikowi §d" + targetPlayer.getName());
+                                    System.out.println("Administrator " + player.getName() + " usunął przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
+                                }
                             }
-                        }
-                    } else {
-                        String configItemName = itemNames.get(ID);
-                        if (configItemName == null) {
-                            player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: §e" + ID);
-                            return true;
-                        }
-                        String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                        int currentItems = plugin.getConfig().getInt(playerKey, 0);
-                        if (currentItems >= 1) {
-                            player.sendMessage("§b§lSky§aMMO §cNie można dodać więcej przedmiotów §e" + ID + "§c, ponieważ osiągnięto limit.");
-                            return true;
-                        }
-                        plugin.getConfig().set(playerKey, currentItems + 1);
-                        player.sendMessage("§b§lSky§aMMO §cDodano §e" + ID + "§c graczu §d" + targetPlayer.getName());
-                        System.out.println("Administrator " + player.getName() + " dodał przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
-                    }
-
-                } else if (args[1].equals("clear")) {
-                    if (ID.equals("all")) {
-                        for (String key : itemNames.keySet()) {
-                            String configItemName = itemNames.get(key);
+                        } else {
+                            String configItemName = itemNames.get(ID);
+                            if (configItemName == null) {
+                                player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + ID);
+                                return true;
+                            }
                             String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                            if (plugin.getConfig().contains(playerKey)) {
-                                plugin.getConfig().set(playerKey, 0);
-                                player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + key + "§c użytkownikowi §d" + targetPlayer.getName());
-                                System.out.println("Administrator " + player.getName() + " usunął przedmiot " + key + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
+                            if (!plugin.getConfig().contains(playerKey)) {
+                                player.sendMessage("§b§lSky§aMMO §cGracz nie posiada przedmiotu: " + ID);
+                                return true;
                             }
+                            plugin.getConfig().set(playerKey, 0);
+                            player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + ID + "§c użytkownikowi §d" + targetPlayer.getName());
+                            System.out.println("Administrator " + player.getName() + " usunął przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
                         }
-                    } else {
-                        String configItemName = itemNames.get(ID);
-                        if (configItemName == null) {
-                            player.sendMessage("§b§lSky§aMMO §cNieznany przedmiot: " + ID);
-                            return true;
-                        }
-                        String playerKey = targetPlayer.getUniqueId().toString() + "." + configItemName;
-                        if (!plugin.getConfig().contains(playerKey)) {
-                            player.sendMessage("§b§lSky§aMMO §cGracz nie posiada przedmiotu: " + ID);
-                            return true;
-                        }
-                        plugin.getConfig().set(playerKey, 0);
-                        player.sendMessage("§b§lSky§aMMO §cUsunięto §e" + ID + "§c użytkownikowi §d" + targetPlayer.getName());
-                        System.out.println("Administrator " + player.getName() + " usunął przedmiot " + ID + " graczu " + targetPlayer.getName()); // Dodano log do konsoli
-                    }
+                        break;
+                    default:
+                        player.sendMessage("§b§lSky§aMMO §dOtwieram trofea...");
+                        player.openInventory(artefaktyInventory.getArtefaktyInventory());
+                        break;
                 }
-                plugin.saveConfig();
-            } else {
-                player.sendMessage("§b§lSky§aMMO §dOtwieram trofea...");
-                player.openInventory(artefaktyInventory.getArtefaktyInventory());
             }
+            plugin.saveConfig();
         }
         return true;
     }
+
+
 
 
     @Override
